@@ -1,0 +1,7 @@
+﻿Line,Date,Category,Description,Detail,Company Paid,Currency Code,Amount,Payment Exchange Rate,Payment Amount,Exchange Override,Expense Location,Total Tax Amount,Net Amount, Project, Project Name
+2,15/10/2024,Travel - Meal Costs - [All Groups],Food before the flight,,Checked,GBP,4.25,0,4.25,None,GB,0,4.25,R.12345,Amazing project number 12345
+3,15/10/2024,Travel - Meal Costs - [All Groups],Dinner in Bristol,,Checked,GBP,7.95,0,7.95,None,GB,1.33,6.62,R.12345,Amazing project number 12345
+4,16/10/2024,Travel - Rail Travel - [All Groups],Metro from Airport to Central NCL,,Checked,GBP,4.5,0,4.5,None,GB,0,4.5,R.12345,Amazing project number 12345
+5,16/10/2024,Travel - Meal Costs - [All Groups],Lunch in Bristol,,Checked,GBP,7.95,0,7.95,None,GB,0,7.95,R.12345,Amazing project number 12345
+6,16/10/2024,Travel - Meal Costs - [All Groups],Dinner in Bristol,,Checked,GBP,14.57,0,14.57,None,GB,0,14.57,R.12345,Amazing project number 12345
+7,16/10/2024,Travel - Rail Travel - [All Groups],Train Newcastle to Darlington,,Checked,GBP,7.14,0,7.14,None,GB,0,7.14,R.54321,A less amazing project 54321
