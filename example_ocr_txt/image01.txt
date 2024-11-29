@@ -1,0 +1,65 @@
+snail Lancaster
+Caton Road
+Lancaster
+stat No:
+
+E
+
+2
+1 9152484430 ;
+an 9799466252 1,2,3,4.5
+
+0726
+
+cUSTOMER RECEIPT
+
+ARTICLE VAT ae
+xFS Unleaded 6 ils
+(PUMP 8; 54.52 2 * & 1.429/0) *
+
+fo secoeas-oo-
+
+TOTAL EL ef = -
+MasterCard £77.91
+JEP
+Terminal ID.: 05072601
+Period no.: 662
+Transaction no.: 000096
+Receipt no.: 000096
+Date/time: 15-11-2024 16:29
+MASTERCARD
+
+15/11/24 16:29:28
+Customer Copy
+
+Terminal ID +: 05072601
+EFT : 0000101540/000096/0000000662
+
+Entry Mode : Contactless
+
+Card Name : DEBIT MASTERCARD
+Seg. Number : 00
+
+AID : A0000000041010
+App. Crypt. +: 61B37A7AG82BC5F0
+XXXXXXXXXXXX4 966
+
+Start date : 12/23
+
+Expires 2K / x
+
+SALE AMOUNT GBP 77.91
+Response : 000 APPROVED
+Auth Code : 187040
+
+Verification : No CVM
+Please retain this copy for your records
+
+VAT type % Nett VAT amount
+6 ~=©20,00 £ 64.93 £ 12,98
+
+15-11-2024 16:29:27 726 0116 1103110696
+11-014130-81182419 4571
+
+Thank you for choosing Shel |
+
