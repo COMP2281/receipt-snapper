@@ -3,15 +3,19 @@ import pytesseract
 import numpy as np
 import re
 import pandas as pd
+import platform
+import os
 
-filename = "image02.png"
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+filename = "example_images/image02.png".replace(os.sep, '/')
+
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
 
 img1 = np.array(Image.open(filename))
 
 text = pytesseract.image_to_string(img1)
 
-output_file = "image02.txt"
+output_file = "example_ocr_txt/image02.txt".replace(os.sep, '/')
 
 with open(output_file, 'w', encoding='utf-8') as file:
     file.write(text)
@@ -43,7 +47,7 @@ formatted_date = reformat_date(date, date[2])
 print(formatted_date)
 print(total_cost)
 
-incomplete_df = pd.read_csv("example_expenses\ExpenseReport-RawCardDataOnly.csv", usecols=["Date", "Amount"])
+incomplete_df = pd.read_csv("example_expenses/ExpenseReport-RawCardDataOnly.csv".replace(os.sep, '/'), usecols=["Date", "Amount"])
 
 print(incomplete_df)
 
