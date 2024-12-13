@@ -6,7 +6,7 @@ import pandas as pd
 import platform
 import os
 
-filename = "example_images/image02.png".replace(os.sep, '/')
+filename = "example_images/image01.png".replace(os.sep, '/')
 
 if platform.system() == "Windows":
     pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
@@ -15,14 +15,16 @@ img1 = np.array(Image.open(filename))
 
 text = pytesseract.image_to_string(img1)
 
-output_file = "example_ocr_txt/image02.txt".replace(os.sep, '/')
+output_file = "example_ocr_txt/image01.txt".replace(os.sep, '/')
 
 with open(output_file, 'w', encoding='utf-8') as file:
     file.write(text)
 
 
 date_pattern = re.compile(r'(\d{2})[/.,-](\d{2})[/.,-](\d{4})')
-cost_pattern = re.compile(r'£\d+(?:\.\d{2})?')
+# Check for $/£ 
+cost_pattern = re.compile(r'[\£\$\€]\d+(?:\.\d{2})?')
+#cost_pattern = re.compile(r'£\d+(?:\.\d{2})?')
 date = ""
 amounts = []
 with open(output_file, "r", encoding='utf-8') as file:
