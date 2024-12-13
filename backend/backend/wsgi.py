@@ -7,6 +7,8 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 """
 
+#protocol - a standard which a web server iwll use to communicate with python app
+
 import os
 
 from django.core.wsgi import get_wsgi_application
