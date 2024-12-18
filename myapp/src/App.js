@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function footerText() {
+  return <>
+    <Typography
+      variant="body2"
+      color="textSecondary"
+      align="center"
+
+    >
+
+      Development Version by Durham University COMP Group 21 - 2024
+
+    </Typography>
+  </>;
 }
 
-export default App;
+function loginButton() {
+  return <Button variant="contained">Login</Button>;
+}
+
+export default function App() {
+  return (
+    <Container>
+      <Box sx={{ my: 4 }}>
+        <h1>Receipt Snapper</h1>
+        {loginButton()}
+        {footerText()}
+      </ Box>
+    </Container>
+  );
+}
