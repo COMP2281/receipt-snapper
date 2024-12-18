@@ -6,6 +6,7 @@ export default function Footer() {
         variant="body2"
         color="textSecondary"
         align="center"
+  
       >
   
         Development Version by Durham University COMP Group 21 - 2024
