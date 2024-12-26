@@ -17,12 +17,14 @@ Including another URLconf
 from django.http import HttpResponse
 from django.contrib import admin
 from django.urls import path, include
+from myapi import views
 
 def root_view(request):
     return HttpResponse("Root test")
 
 urlpatterns = [
-    path('', root_view, name='root'),  #root i.e. ''
+    #path('', views.index),     #root link to react
+    path('', root_view, name='root'),  #root
     path('admin/', admin.site.urls),    #admin url
     path('api/', include('myapi.urls')) #api url
 ]
