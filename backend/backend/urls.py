@@ -14,17 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.http import HttpResponse
+#from django.http import HttpResponse
 from django.contrib import admin
 from django.urls import path, include
-from myapi import views
 
-def root_view(request):
-    return HttpResponse("Root test")
+#def root_view(request):
+#    return HttpResponse("Root test")
 
 urlpatterns = [
     #path('', views.index),     #root link to react
-    path('', root_view, name='root'),  #root
-    path('admin/', admin.site.urls),    #admin url
-    path('api/', include('myapi.urls')) #api url
+    #path('', root_view, name='root'),  #root
+    #path('admin/', admin.site.urls),    #admin url
+    path('', include('myapi.urls')), #api url
+    #path('', include('myapi.urls')),
 ]
