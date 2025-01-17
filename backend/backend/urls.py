@@ -17,6 +17,7 @@ Including another URLconf
 #from django.http import HttpResponse
 from django.contrib import admin
 from django.urls import path, include
+from manual_inputs import views
 
 #def root_view(request):
 #    return HttpResponse("Root test")
@@ -27,4 +28,7 @@ urlpatterns = [
     #path('admin/', admin.site.urls),    #admin url
     path('', include('myapi.urls')), #api url
     #path('', include('myapi.urls')),
+
+
+    path('manual_input/', views.manual_input, name='manual_input'), #manual input url
 ]
