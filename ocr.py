@@ -6,7 +6,7 @@ import pandas as pd
 import platform
 import os
 
-filename = "example_images/image01.png".replace(os.sep, '/')
+filename = "example_images/image02.png".replace(os.sep, '/')
 
 if platform.system() == "Windows":
     pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
@@ -15,7 +15,7 @@ img1 = np.array(Image.open(filename))
 
 text = pytesseract.image_to_string(img1)
 
-output_file = "example_ocr_txt/image01.txt".replace(os.sep, '/')
+output_file = "example_ocr_txt/image02.txt".replace(os.sep, '/')
 
 with open(output_file, 'w', encoding='utf-8') as file:
     file.write(text)
@@ -24,18 +24,29 @@ with open(output_file, 'w', encoding='utf-8') as file:
 date_pattern = re.compile(r'(\d{2})[/.,-](\d{2})[/.,-](\d{4})')
 # Check for $/£ 
 cost_pattern = re.compile(r'[\£\$\€]\d+(?:\.\d{2})?')
-#cost_pattern = re.compile(r'£\d+(?:\.\d{2})?')
 date = ""
 amounts = []
+date_found = False
+cost_found = False
 with open(output_file, "r", encoding='utf-8') as file:
     for line in file:
         if date_pattern.search(line):
             date = date_pattern.search(line).group()
-            break
+            date_found = True
         if cost_pattern.search(line):
             amounts.append(cost_pattern.search(line).group())
+            cost_found = True
 
+# placeholder error handling
+if not cost_found:
+    print("No costs found in the file")
+
+if not date_found:
+    print("No date found in the file")
+    
 def find_highest(arr):
+    currency = arr[0][0]
+    print(currency)
     float_arr = list(map(lambda x: float(x[1:]), arr))
     return max(float_arr)
 
