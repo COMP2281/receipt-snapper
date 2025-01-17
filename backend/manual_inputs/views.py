@@ -11,4 +11,4 @@ def manual_input(request):
             return HttpResponse("Expense saved successfully") # Can be changed to redirect to a possible success page.
     else:
         form = ExpenseForm()
-    return render(request, 'manual_inputs/manualinputs.html', {'form': form}) 
+    return render(request, 'manualinputs.html') 
