@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login_system',
     'manual_inputs',
-    'pastdata',
+    'previous_expenses',
 
     'rest_framework',
 ]
