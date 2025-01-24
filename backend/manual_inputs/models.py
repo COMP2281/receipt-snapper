@@ -8,5 +8,4 @@ class Expense(models.Model):
     receipt_file = models.FileField(upload_to='receipts/')
 
     def __str__(self):
-        return f"{self.merchant} - {self.amount} {self.currency}" 
-
+        return f"{self.merchant} - {self.amount} {self.currency} on {self.purchase_date}"
