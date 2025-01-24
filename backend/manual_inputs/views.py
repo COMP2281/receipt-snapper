@@ -1,13 +1,10 @@
-from django.shortcuts import render
-from .forms import ExpenseForm
+from rest_framework.viewsets import ModelViewSet
+from .models import Expense
+from .serializers import ExpenseSerializer
 
-def manual_input(request):
-    form = ExpenseForm()
-    if request.method == 'POST':
-        form = ExpenseForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return render(request, 'manual_input/success.html') #Doesn't exist yet (page can be anything or back to main menu or whatever when added; for now it takes you to an nonexistent page called success so you know its working)
-        
-    print(form)
-    return render(request, 'manual_input/manual_input.html', {'form': form})
+class ExpenseViewSet(ModelViewSet):
+    """
+    A simple API endpoint for managing expenses.
+    """
+    queryset = Expense.objects.all()  
+    serializer_class = ExpenseSerializer 
