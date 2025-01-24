@@ -25,10 +25,9 @@ from manual_inputs import views
 urlpatterns = [
     #path('', views.index),     #root link to react
     #path('', root_view, name='root'),  #root
-    #path('admin/', admin.site.urls),    #admin url
+    path('admin/', admin.site.urls),    #admin url
     path('', include('myapi.urls')), #api url
     #path('', include('myapi.urls')),
-
-
-    path('manual_input/', views.manual_input, name='manual_input'), #manual input url
+    path('login_system/', include('login_system.urls')),
+    path('api/', include('manual_inputs.urls')),  
 ]

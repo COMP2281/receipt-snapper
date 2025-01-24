@@ -1,19 +1,21 @@
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Footer from '../components/footer';
 
-function loginButton() {
-  return <Button variant="contained">Login</Button>;
-}
-
 export default function Login() {
   return (
-    <Container>
-      <Box sx={{ my: 4 }}>
-        <h1>Receipt Snapper</h1>
-        {loginButton()}
-      </ Box>
-    </Container>
+    <>
+      <CssBaseline />
+      <Container>
+        <h1>Login</h1>
+        <Box sx={{ mt: 2 }}>
+          <Button variant="contained" href="/dashboard">Login</Button>
+        </Box>
+      </Container>
+      <Footer />
+    </>
   );
 }
