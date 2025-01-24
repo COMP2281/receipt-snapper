@@ -5,8 +5,9 @@ import re
 import pandas as pd
 import platform
 import os
+import csv
 
-filename = "example_images/test_receipt_dollars.png".replace(os.sep, '/')
+filename = "example_images/image02.png".replace(os.sep, '/')
 
 if platform.system() == "Windows":
     pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
@@ -69,14 +70,77 @@ print(currency)
 print(formatted_date)
 print(total_cost)
 
-incomplete_df = pd.read_csv("example_expenses/ExpenseReport-RawCardDataOnly.csv".replace(os.sep, '/'), usecols=["Date", "Amount"])
+incomplete_df = pd.read_csv("example_expenses/ExpenseReport-RawCardDataOnly.csv".replace(os.sep, '/'))
 
-print(incomplete_df)
+output_file = "matched_data.csv"
 
-for index, row in incomplete_df.iterrows():
-    df_date = row["Date"]
-    df_price = row["Amount"]
-    print(df_date)
-    if df_date == formatted_date and df_price == total_cost:
-        print("Matched", index) 
+# Write header and data
+with open(output_file, mode='w', newline='', encoding='utf-8') as file:
+    writer = csv.writer(file)
+    # Header for the output CSV
+    writer.writerow([
+        "Index", "Date","Category","Description","Detail","Company Paid",
+        "Currency Code","Amount","Payment Exchange Rate","Payment Amount",
+        "Exchange Override","Expense Location","Total Tax Amount","Net Amount",
+        "Project", "Project Name"
+    ])
+    
+    # Iterate through rows in the DataFrame
+    for index, row in incomplete_df.iterrows():
+        df_date = row["Date"]
+        df_price = row["Amount"]
+        print(df_date)
+        if df_date == formatted_date and df_price == total_cost:
+            category = input("""
+                            Input the correct category from this list
+                            Client Entertainment
+                            External Meeting Room Hire
+                            Hardware Purchase for Clients
+                            "Health & Safety, DSE, Eye Tests"
+                            Marketing Costs
+                            Networking Events
+                            Professional Subscriptions
+                            Team Entertainment
+                            Training
+                            Travel - Air Fare
+                            Travel - Bus Fare
+                            Travel - Hire Car
+                            Travel - Hotel Costs
+                            Travel - Meal Costs
+                            Travel - Mileage - IE
+                            Travel - Mileage - UK
+                            Travel - Parking
+                            Travel - Rail Travel
+                            Travel - Taxi Fare
+                            Travel - Toll Charge
+                            Waterstons IT Cloud Hosting
+                            Waterstons IT Peripherals (Hardware)
+                            Waterstons IT Software Subscriptions
+                            Waterstons Office Expenses - Australia
+                            Waterstons Office Expenses - Durham
+                            Waterstons Office Expenses - Glasgow
+                            Waterstons Office Expenses - London
+                            Waterstons Party
+                            """
+                             )  # Replace with dropdown menu
+            description = input("Please write a short description of the expense.")
+            detail = input("(Optional) Enter extra detail about the expense, press Enter to skip")  # Replace with user input
+            company_paid = "None"
+            amount = df_price
+            payment_exchange_rate = "None"
+            payment_amount = df_price
+            exchange_override = "None"
+            expense_location = row["Expense Location"]
+            currency_code = row["Currency Code"]
+            total_tax_amount = round(df_price - df_price / 1.2, 2)  # Change to check if VAT number present
+            net_amount = round(df_price - total_tax_amount, 2)
+            project = "Example Project"
+            project_name = "Example Project Name"
+
+            # Write the matched row with filled details to CSV
+            writer.writerow([
+                index, df_date, category, description, detail, 
+                company_paid, currency_code, amount, payment_exchange_rate, payment_amount, exchange_override, expense_location, total_tax_amount, net_amount, 
+                project, project_name
+            ])
 
