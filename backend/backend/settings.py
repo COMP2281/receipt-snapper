@@ -34,15 +34,16 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'myapi',
     'base',
+    'login_system',
+    'manual_inputs',
+    'previous_expenses',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login_system',
-    'manual_inputs',
-    'previous_expenses',
 
     'rest_framework',
 ]
@@ -65,8 +66,8 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'myapp/src')],
-        'APP_DIRS': True,
+        'DIRS': [],  
+        'APP_DIRS': True,  
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -77,6 +78,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 

@@ -7,6 +7,7 @@ import platform
 import os
 import csv
 from geopy.geocoders import Nominatim
+import csv
 
 geolocator = Nominatim(user_agent="my_geopy_app")
 filename = "example_images/image04.png".replace(os.sep, '/')
