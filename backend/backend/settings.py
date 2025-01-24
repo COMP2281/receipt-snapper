@@ -34,15 +34,16 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'myapi',
     'base',
+    'login_system',
+    'manual_inputs',
+    'previous_expenses',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login_system',
-    'manual_inputs',
-    'previous_expenses',
 
     'rest_framework',
 ]
