@@ -12,5 +12,20 @@
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+    <script>
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            const receiptFile = document.querySelector("input[name='receipt_file']");
+            const errorMessages = [];
+
+            // Displays errors or allows them to submit
+            if (errorMessages.length > 0) {
+                e.preventDefault(); 
+                alert(errorMessages.join("\n"));
+            }
+        });
+    </script>
+
+
+
 </body>
 </html>
