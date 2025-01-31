@@ -18,3 +18,5 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"{self.merchant} - {self.amount} {self.currency} on {self.purchase_date}"
+
+
