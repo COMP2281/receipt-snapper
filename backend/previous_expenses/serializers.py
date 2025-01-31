@@ -1,4 +1,6 @@
 from rest_framework import serializers
 from .models import PreviousExpense
 
-class 
+class PreviousExpenseSerializer(serializers.ModelSerializer):
+  class meta:
+    
