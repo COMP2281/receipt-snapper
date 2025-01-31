@@ -7,4 +7,4 @@ class ExpenseAdmin(admin.ModelAdmin):
     list_filter = ('purchase_date', 'currency', 'vat_percentage')  
     search_fields = ('merchant', 'currency')  
     ordering = ('-purchase_date',)
-    readonly_fields = ('vat_amount', 'total_amount') #these are Read-Only fields. 
+    readonly_fields = ('vat_amount', 'total_amount') #these are Read-Only fields and non-editable.
