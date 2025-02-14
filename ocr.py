@@ -10,14 +10,14 @@ from geopy.geocoders import Nominatim
 import csv
 
 geolocator = Nominatim(user_agent="my_geopy_app")
-filename = "example_images/image04.png".replace(os.sep, '/')
+filename = "example_images/image03.png".replace(os.sep, '/')
 if platform.system() == "Windows":
     pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
 
 img1 = np.array(Image.open(filename))
 text = pytesseract.image_to_string(img1)
 
-output_file = "example_ocr_txt/image04.txt".replace(os.sep, '/')
+output_file = "example_ocr_txt/image03.txt".replace(os.sep, '/')
 
 with open(output_file, 'w', encoding='utf-8') as file:
     file.write(text)
@@ -27,7 +27,7 @@ date_pattern = re.compile(r'(\d{2})[/.,-](\d{2})[/.,-](\d{4})')
 # Check for $/£ 
 cost_pattern = re.compile(r'[\£\$\€]\d+(?:\.\d{2})?')
 currency_abrvs = ["GBP", "AUD"]
-address_keywords = ["ROAD", "AVENUE", "CRESCENT", "DRIVE", "LANE", "STREET", "COURT"]
+address_keywords = ["ROAD", "AVENUE", "CRESCENT", "DRIVE", "LANE", "STREET", "COURT", "HIGHWAY"]
 currency = ""
 date = ""
 amounts = []
