@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+
 
 #Views
 @api_view(['POST'])
@@ -22,7 +25,6 @@ def login_user(request):
         return Response({"detail": "Login successful."}, status=status.HTTP_200_OK)
     else:
         raise AuthenticationFailed("Invalid credentials")
-
 
 @api_view(['POST'])
 def logout_user(request):
@@ -48,6 +50,20 @@ user.save()
 User.objects.all()
 exit()
 """
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  #checks user is already logged in
+def user_getinfo(request):
+    user = request.user 
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+    }
+    return Response(user_data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def user_list(request):
