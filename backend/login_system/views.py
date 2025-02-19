@@ -31,7 +31,6 @@ def logout_user(request):
     logout(request)
     return Response({"detail": "Logout successful."}, status=status.HTTP_200_OK)
 
-
 """
 lex's dummy guide for future reference:
 to test if this authentication works send a post request from this url with a known user e.g.
@@ -50,7 +49,6 @@ user.save()
 User.objects.all()
 exit()
 """
-
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])  #checks user is already logged in
