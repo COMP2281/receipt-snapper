@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
-
+from django.contrib.auth import logout
 
 #Views
 @api_view(['POST'])
@@ -22,6 +22,13 @@ def login_user(request):
         return Response({"detail": "Login successful."}, status=status.HTTP_200_OK)
     else:
         raise AuthenticationFailed("Invalid credentials")
+
+
+@api_view(['POST'])
+def logout_user(request):
+    logout(request)
+    return Response({"detail": "Logout successful."}, status=status.HTTP_200_OK)
+
 
 """
 lex's dummy guide for future reference:
