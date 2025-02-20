@@ -2,10 +2,10 @@ from rest_framework.response import Response
 from .models import User
 from .serializers import UserSerializer
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth import authenticate
 from django.contrib.auth import logout
+from django.contrib.auth import login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
@@ -22,14 +22,19 @@ def login_user(request):
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
+        login(request, user)
         return Response({"detail": "Login successful."}, status=status.HTTP_200_OK)
     else:
         raise AuthenticationFailed("Invalid credentials")
 
-@api_view(['POST'])
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  #checks user is already logged in
 def logout_user(request):
-    logout(request)
-    return Response({"detail": "Logout successful."}, status=status.HTTP_200_OK)
+    if request.method == 'GET':
+        logout(request)
+        return Response({"detail": "Logout successful."}, status=status.HTTP_200_OK)
+    return Response({"detail": "Invalid method."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 """
 lex's dummy guide for future reference:
@@ -51,7 +56,7 @@ exit()
 """
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  #checks user is already logged in
+@permission_classes([IsAuthenticated]) 
 def user_getinfo(request):
     user = request.user 
     user_data = {
