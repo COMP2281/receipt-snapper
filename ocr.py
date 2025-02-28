@@ -7,166 +7,124 @@ import platform
 import os
 import csv
 from geopy.geocoders import Nominatim
-import csv
 
-geolocator = Nominatim(user_agent="my_geopy_app")
-filename = "example_images/image03.png".replace(os.sep, '/')
-if platform.system() == "Windows":
-    pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
+def configure_tesseract():
+    """Configures Tesseract path for Windows."""
+    if platform.system() == "Windows":
+        pytesseract.pytesseract.tesseract_cmd = 'C:/Program Files/Tesseract-OCR/tesseract.exe'.replace(os.sep, '/')
 
-img1 = np.array(Image.open(filename))
-text = pytesseract.image_to_string(img1)
+def extract_text_from_image(image_path):
+    """Extracts text from an image using Tesseract OCR."""
+    img = np.array(Image.open(image_path))
+    return pytesseract.image_to_string(img)
 
-output_file = "example_ocr_txt/image03.txt".replace(os.sep, '/')
+def save_text_to_file(text, output_file):
+    """Saves extracted text to a file."""
+    with open(output_file, 'w', encoding='utf-8') as file:
+        file.write(text)
 
-with open(output_file, 'w', encoding='utf-8') as file:
-    file.write(text)
+def extract_data_from_text(file_path):
+    """Extracts date, costs, currency, and location details from OCR text."""
+    date_pattern = re.compile(r'\d{2}[/.,-]\d{2}[/.,-]\d{4}')
+    cost_pattern = re.compile(r'[\£\$\€]\d+(?:\.\d{2})?')
+    address_keywords = ["ROAD", "AVENUE", "CRESCENT", "DRIVE", "LANE", "STREET", "COURT", "HIGHWAY"]
+    currency_abrvs = ["GBP", "AUD"]
+    
+    date, amounts, currency, location = "", [], "", ""
+    with open(file_path, "r", encoding='utf-8') as file:
+        for line in file:
+            if match := date_pattern.search(line):
+                date = match.group()
+            if match := cost_pattern.search(line):
+                amounts.append(match.group())
+            if any(entry in line.upper() for entry in address_keywords):
+                location = line.strip()
+            if any(symbol in line for symbol in currency_abrvs):
+                currency = next(symbol for symbol in currency_abrvs if symbol in line)
+            if "£" in line:
+                currency = "GBP"
+            elif "$" in line:
+                currency = "AUD"
+    
+    return date, amounts, currency, location
 
+def find_highest_amount(amounts):
+    """Finds the highest amount from a list of extracted costs."""
+    return max(map(lambda x: float(x[1:]), amounts)) if amounts else 0
 
-date_pattern = re.compile(r'(\d{2})[/.,-](\d{2})[/.,-](\d{4})')
-# Check for $/£ 
-cost_pattern = re.compile(r'[\£\$\€]\d+(?:\.\d{2})?')
-currency_abrvs = ["GBP", "AUD"]
-address_keywords = ["ROAD", "AVENUE", "CRESCENT", "DRIVE", "LANE", "STREET", "COURT", "HIGHWAY"]
-currency = ""
-date = ""
-amounts = []
-date_found = False
-cost_found = False
-location_found = False
-with open(output_file, "r", encoding='utf-8') as file:
-    for line in file:
-        if date_pattern.search(line):
-            date = date_pattern.search(line).group()
-            date_found = True
-        if cost_pattern.search(line):
-            amounts.append(cost_pattern.search(line).group())
-            cost_found = True
+def reformat_date(date):
+    """Reformats date from extracted format to standardized format."""
+    return date.replace(date[2], "/", 2) if date else ""
 
-        for entry in address_keywords:
-            if entry in line.upper():
-                location = line
-                location_found = True
-
-        for symbol in currency_abrvs:
-            if symbol in line:
-                currency = symbol
-        if "£" in line:
-            currency = "GBP"
-        elif "$" in line:
-            currency = "AUD"
-
-if location_found:
+def geocode_location(location, currency):
+    """Finds geographical coordinates for a given location string."""
+    geolocator = Nominatim(user_agent="my_geopy_app")
     if currency == "GBP":
-        location = location + ", UK"
+        location += ", UK"
     elif currency == "AUD":
-        # USA for now since the receipts are from USA
-        location = location + ", USA"
-
+        location += ", USA"
     try:
-        location = geolocator.geocode(location, timeout=10000, language = 'en')
+        geo_location = geolocator.geocode(location, timeout=10, language='en')
+        return geo_location.address, geo_location.latitude, geo_location.longitude
     except:
-        location = "not found"
+        return "not found", None, None
 
-    if location == "not found":
-        print("failed to find location")
+def match_expense_data(formatted_date, total_cost, expense_csv):
+    """Matches extracted expense data with an existing expense report."""
+    df = pd.read_csv(expense_csv.replace(os.sep, '/'), usecols=["Date", "Amount"])
+    matched_rows = df[(df["Date"] == formatted_date) & (df["Amount"] == total_cost)]
+    return matched_rows
 
-    print(location.address)
-    print(location.latitude)
-    print(location.longitude)
-
-# placeholder error handling
-if not cost_found:
-    print("No costs found in the file")
-
-if not date_found:
-    print("No date found in the file")
+def write_matched_data_to_csv(matched_rows, output_file):
+    """Writes matched expense data to a CSV file."""
+    header = ["Index", "Date", "Category", "Description", "Detail", "Company Paid", "Currency Code", "Amount", 
+              "Payment Exchange Rate", "Payment Amount", "Exchange Override", "Expense Location", "Total Tax Amount", 
+              "Net Amount", "Project", "Project Name"]
     
-def find_highest(arr):
-    float_arr = list(map(lambda x: float(x[1:]), arr))
-    return max(float_arr)
+    with open(output_file, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(header)
+        for index, row in matched_rows.iterrows():
+            category = input("Enter the category for the expense: ")
+            description = input("Enter a short description of the expense: ")
+            detail = input("Enter any additional details (optional): ")
+            total_tax_amount = round(row["Amount"] - row["Amount"] / 1.2, 2)
+            net_amount = round(row["Amount"] - total_tax_amount, 2)
+            writer.writerow([index, row["Date"], category, description, detail, "None", "", row["Amount"], "None", row["Amount"],
+                             "None", row.get("Expense Location", ""), total_tax_amount, net_amount, "Example Project", "Example Project Name"])
 
-total_cost = find_highest(amounts)
-
-def reformat_date(string, character):
-    return "/".join(string.split(character))
-
-formatted_date = reformat_date(date, date[2])
-
-print(currency)
-print(formatted_date)
-print(total_cost)
-
-incomplete_df = pd.read_csv("example_expenses/ExpenseReport-RawCardDataOnly.csv".replace(os.sep, '/'), usecols=["Date", "Amount"])
-
-output_file = "matched_data.csv"
-
-# Write header and data
-with open(output_file, mode='w', newline='', encoding='utf-8') as file:
-    writer = csv.writer(file)
-    # Header for the output CSV
-    writer.writerow([
-        "Index", "Date","Category","Description","Detail","Company Paid",
-        "Currency Code","Amount","Payment Exchange Rate","Payment Amount",
-        "Exchange Override","Expense Location","Total Tax Amount","Net Amount",
-        "Project", "Project Name"
-    ])
+def main():
+    configure_tesseract()
+    image_path = "example_images/image02.png".replace(os.sep, '/')
+    text = extract_text_from_image(image_path)
+    output_file = "example_ocr_txt/image02.txt".replace(os.sep, '/')
+    save_text_to_file(text, output_file)
     
-    # Iterate through rows in the DataFrame
-    for index, row in incomplete_df.iterrows():
-        df_date = row["Date"]
-        df_price = row["Amount"]
-        print(df_date)
-        if df_date == formatted_date and df_price == total_cost:
-            category = input("""
-                            Input the correct category from this list
-                            Client Entertainment
-                            External Meeting Room Hire
-                            Hardware Purchase for Clients
-                            "Health & Safety, DSE, Eye Tests"
-                            Marketing Costs
-                            Networking Events
-                            Professional Subscriptions
-                            Team Entertainment
-                            Training
-                            Travel - Air Fare
-                            Travel - Bus Fare
-                            Travel - Hire Car
-                            Travel - Hotel Costs
-                            Travel - Meal Costs
-                            Travel - Mileage - IE
-                            Travel - Mileage - UK
-                            Travel - Parking
-                            Travel - Rail Travel
-                            Travel - Taxi Fare
-                            Travel - Toll Charge
-                            Waterstons IT Cloud Hosting
-                            Waterstons IT Peripherals (Hardware)
-                            Waterstons IT Software Subscriptions
-                            Waterstons Office Expenses - Australia
-                            Waterstons Office Expenses - Durham
-                            Waterstons Office Expenses - Glasgow
-                            Waterstons Office Expenses - London
-                            Waterstons Party
-                            """
-                             )  # Replace with dropdown menu
-            description = input("Please write a short description of the expense.")
-            detail = input("(Optional) Enter extra detail about the expense, press Enter to skip")  # Replace with user input
-            company_paid = "None"
-            amount = df_price
-            payment_exchange_rate = "None"
-            payment_amount = df_price
-            exchange_override = "None"
-            expense_location = row["Expense Location"]
-            currency_code = row["Currency Code"]
-            total_tax_amount = round(df_price - df_price / 1.2, 2)  # Change to check if VAT number present
-            net_amount = round(df_price - total_tax_amount, 2)
-            project = "Example Project"
-            project_name = "Example Project Name"
+    date, amounts, currency, location = extract_data_from_text(output_file)
+    total_cost = find_highest_amount(amounts)
+    formatted_date = reformat_date(date)
+    
+    if location:
+        address, lat, lon = geocode_location(location, currency)
+        if address == "not found":
+            print("Failed to find location")
+        else:
+            print(address, lat, lon)
+    
+    if not amounts:
+        print("No costs found in the file")
+    if not date:
+        print("No date found in the file")
+    
+    print(currency, formatted_date, total_cost)
+    
+    expense_csv = "example_expenses/ExpenseReport-RawCardDataOnly.csv"
+    matched_rows = match_expense_data(formatted_date, total_cost, expense_csv)
+    
+    if not matched_rows.empty:
+        write_matched_data_to_csv(matched_rows, "matched_data.csv")
+    else:
+        print("No matching expense found.")
 
-            # Write the matched row with filled details to CSV
-            writer.writerow([
-                index, df_date, category, description, detail, 
-                company_paid, currency_code, amount, payment_exchange_rate, payment_amount, exchange_override, expense_location, total_tax_amount, net_amount, 
-                project, project_name
-            ])
+if __name__ == "__main__":
+    main()
