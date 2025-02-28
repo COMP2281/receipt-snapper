@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'login_system',
     'manual_inputs',
     'previous_expenses',
+    'export',
 
     'django.contrib.admin',
     'django.contrib.auth',

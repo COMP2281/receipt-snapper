@@ -29,5 +29,7 @@ urlpatterns = [
     path('', include('myapi.urls')), #api url
     #path('', include('myapi.urls')),
     path('login_system/', include('login_system.urls')),
-    path('api/', include('manual_inputs.urls')),  
+    path('api/manual/', include('manual_inputs.urls')),
+    path('api/export/', include('export.urls')),  
 ]
+
