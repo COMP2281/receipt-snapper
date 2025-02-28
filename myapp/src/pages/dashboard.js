@@ -4,10 +4,11 @@ import Navbar from '../components/navbar.js';
 import { DataGrid } from '@mui/x-data-grid';
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Typography, useTheme } from '@mui/material';
 
 
 export default function Dashboard() {
+    const theme = useTheme();
     const onDrop = useCallback((acceptedFiles) => {
         // Handle file upload
         console.log(acceptedFiles);
@@ -17,24 +18,30 @@ export default function Dashboard() {
 
     return (
         <>
+            <Navbar />
             <Container>
                 <h1>Dashboard</h1>
                 <Box
                     {...getRootProps()}
-                    sx={{
+                    sx={(theme) => ({
                         border: '2px dashed #ccc',
                         padding: '20px',
                         textAlign: 'center',
                         marginBottom: '20px',
-                        background: isDragActive ? 'radial-gradient(circle, #222222, #555555)' : 'radial-gradient(circle, #555555, #222222)',
-                    }}
+                        background: isDragActive 
+                            ? theme.palette.gradient.primary
+                            : theme.palette.gradient.secondary,
+                    })}
                 >
                     <input {...getInputProps()} />
-                    <Typography variant="h6">
-                        {isDragActive ? 'Drop files here!' : 'Drag files here to add expenese'}
+                    <Typography variant="h6" sx={{ color: 'white' }}>
+                        {isDragActive ? 'Drop files here!' : 'Drag files here to add expense'}
                     </Typography>
-                    <Button variant="contained" component="span" sx={{ marginTop: '10px'}}>
+                    <Button variant="contained" component="span" sx={{ marginTop: '10px', marginRight: '10px' }}>
                         Upload Files
+                    </Button>
+                    <Button variant="contained" color="secondary" component="span" sx={{ marginTop: '10px', color: theme.palette.text.primary }}>
+                        Add Expense Manually
                     </Button>
                 </Box>
 
