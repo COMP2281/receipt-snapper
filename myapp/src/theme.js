@@ -9,6 +9,12 @@ const theme = createTheme({
       main: '#a37814'
     },
 
+    // Change default colors
+    text: {
+      primary: '#F5F5F5',
+      secondary: '#cccccc',
+    },
+
 
     error: {
       main: '#d32f2f',
@@ -26,6 +32,7 @@ const theme = createTheme({
     // Change background colors
     background: {
       default: '#111111',
+      paper: '#222222',
     },
   },
 });

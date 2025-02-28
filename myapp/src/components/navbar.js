@@ -6,16 +6,13 @@ import RSIcon from './icons.js';
 
 export default function Navbar() {
     return (
-        <AppBar position="fixed">
+        <AppBar position="fixed" sx={{ bgcolor: 'background.paper' }}>
             <Container maxWidth="xl">
-                
                 <Toolbar>
-                <Box sx={{ mr: 2 }}>
-                    <RSIcon />
-                </Box>
-                    <Typography
-                        variant="h4"
-                    >
+                    <Box sx={{ mr: 2 }}>
+                        <RSIcon />
+                    </Box>
+                    <Typography variant="h4" sx={{ color: 'primary.main' }}>
                         Receipt Snapper
                     </Typography>
                 </Toolbar>
