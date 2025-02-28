@@ -54,3 +54,6 @@ myproject/
 │── logs/                 # Log files
 │── scripts/              # Utility scripts (e.g., data migrations)
 ```
+
+Color Palette:
+https://coolors.co/111111-222222-e6ae2c-ebc05c
