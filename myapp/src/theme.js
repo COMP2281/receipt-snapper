@@ -1,40 +1,44 @@
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#E6AE2C'
-    },
-    secondary: {
-      main: '#a37814'
-    },
+    palette: {
+        primary: {
+            main: '#FFB74D' // A nicer orange color
+        },
+        secondary: {
+            main: '#A37814' // A lighter orange color
+        },
 
-    // Change default colors
-    text: {
-      primary: '#F5F5F5',
-      secondary: '#cccccc',
-    },
+        // Change default colors
+        text: {
+            primary: '#FFFFFF',
+            secondary: '#B0BEC5',
+        },
 
+        error: {
+            main: '#E57373',
+        },
+        warning: {
+            main: '#FFB74D',
+        },
+        info: {
+            main: '#64B5F6',
+        },
+        success: {
+            main: '#81C784',
+        },
 
-    error: {
-      main: '#d32f2f',
-    },
-    warning: {
-      main: '#ff9800',
-    },
-    info: {
-      main: '#2196f3',
-    },
-    success: {
-      main: '#4caf50',
-    },
+        // Change background colors
+        background: {
+            default: '#212121',
+            paper: '#424242',
+        },
 
-    // Change background colors
-    background: {
-      default: '#111111',
-      paper: '#222222',
+        gradient: {
+            primary: 'radial-gradient(circle,rgb(118, 87, 34) 0%,rgb(31, 26, 11) 100%)',
+            secondary: 'radial-gradient(circle,rgb(78, 53, 12) 0%,rgb(31, 26, 11) 100%)',
+        },
     },
-  },
 });
 
 export default theme;
