@@ -7,8 +7,8 @@ export default function RSIcon() {
         src="/assets/logo_2048.png"
         alt="Receipt Snapper Icon"
         sx={{
-            width: 40,
-            height: 40,
+            width: 50,
+            height: 50,
         }}
     />
 };
