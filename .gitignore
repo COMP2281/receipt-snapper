@@ -95,3 +95,5 @@ node_modules/proxy-from-env/README.md
 node_modules/proxy-from-env/test.js
 package-lock.json
 package.json
+
+.DS_Store
