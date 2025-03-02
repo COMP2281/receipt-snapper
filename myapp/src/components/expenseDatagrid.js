@@ -32,6 +32,7 @@ export default function ExpenseDatagrid({ rows }) {
                 },
                 maxHeight: '85vh',
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.47)',
+                border: "none",
 
                 mb: 4,
             }}
@@ -138,17 +139,16 @@ export default function ExpenseDatagrid({ rows }) {
                     filterable: false,
                     disableColumnMenu: true,
                     renderCell: (params) => (
-                        // add a nice edit button
                         <Button 
-                            // try different variants - dotted underlined text
                             variant="text"
                             sx={{
                                 color: theme.palette.text.action,
                                 textDecoration: 'underline',
+                                textUnderlineOffset: '2px',
                                 cursor: 'pointer',
                             }}
                             onClick={() => {
-                                console.log('Edit row:', params.row);
+                                console.log('Edit row:', params.row.id);
                             }}
                         >
                             Edit
