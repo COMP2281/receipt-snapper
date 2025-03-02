@@ -2,25 +2,12 @@ import React from 'react';
 import { Container } from '@mui/material';
 import Navbar from '../components/navbar.js';
 import { useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
-import { Button, Box, Typography, useTheme } from '@mui/material';
 import PageTitle from '../components/pagetitle.js';
 import ExpenseDatagrid from '../components/expenseDatagrid.js';
 import ExpenseUploadBox from '../components/expenseUploadBox.js';
 
 
 export default function Dashboard() {
-    const theme = useTheme();
-    const onDrop = useCallback((acceptedFiles) => {
-        // Handle file upload
-        console.log(acceptedFiles);
-    }, []);
-    const { getRootProps, getInputProps, isDragActive, open } = useDropzone({ 
-        onDrop,
-        noClick: true,
-        noKeyboard: true
-    });
-
     return (
         <>
             <Navbar />
