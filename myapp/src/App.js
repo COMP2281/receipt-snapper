@@ -10,9 +10,9 @@ import Navbar from "./components/navbar.js";
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
-      <Navbar />
       <Box sx={{ mt: 10}}>
         <Router>
+        <Navbar />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
