@@ -4,8 +4,11 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Footer from '../components/footer';
 import TextField from '@mui/material/TextField';
+import { useTheme } from '@mui/material/styles';
 
 export default function Login() {
+  const theme = useTheme();
+
   return (
     <>
       <Container
@@ -58,6 +61,16 @@ export default function Login() {
             </Button>
           </Box>
         </Box>
+        <Button sx={{
+          mt: 2,
+          color: theme.palette.dev.main,
+          background: theme.palette.dev.bg
+
+        }} onClick={() => {
+          window.location.href = '/dashboard';
+        }}>
+        Skip to Dashboard (DEV)
+        </Button>
       </Container>
       <Footer />
     </>
