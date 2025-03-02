@@ -18,6 +18,15 @@ export default function ProgressTag({ text, color, progress }) {
                 mr: 'auto',
                 overflow: 'hidden',
                 position: 'relative',
+                animation: text === "Failed" ? 'glow 1s infinite alternate' : 'none',
+                '@keyframes glow': {
+                    '0%': {
+                        boxShadow: '0 0 2px rgba(255, 0, 0, 0.2), 0 0 4px rgba(255, 0, 0, 0.2)',
+                    },
+                    '100%': {
+                        boxShadow: '0 0 4px rgba(255, 0, 0, .8), 0 0 8px rgba(255, 0, 0, 1.8)',
+                    },
+                },
             }}>
             <Box
                 sx={{
