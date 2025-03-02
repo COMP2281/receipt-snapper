@@ -18,9 +18,9 @@ export default function Navbar() {
 
     const renderButtons = () => (
         <>
-            <Button color="inherit">Dashboard</Button>
-            <Button color="inherit">Card Data</Button>
-            <Button color="inherit">Logout</Button>
+            <Button color="inherit" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
+            <Button color="inherit" onClick={() => window.location.href = '/card-data'}>Card Data</Button>
+            <Button color="inherit" onClick={() => window.location.href = '/'}>Logout</Button>
         </>
     );
 
@@ -33,7 +33,7 @@ export default function Navbar() {
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
                     zIndex: theme.zIndex.drawer - 1,
                     transition: 'opacity 0.3s ease-in-out',
                     opacity: isExpanded ? 1 : 0,
@@ -42,7 +42,10 @@ export default function Navbar() {
                 onClick={handleToggle}
             />
             
-            <AppBar position="fixed">
+            <AppBar position="fixed" sx={{
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.47)',
+                background: theme.palette.gradient.navbar
+            }}>
                 <Container maxWidth="xl">
                     <Toolbar
                         sx={{
@@ -62,6 +65,7 @@ export default function Navbar() {
                                 flexGrow: 1,
                                 display: 'flex',
                                 alignItems: 'center',
+                                fontWeight: 500,
                                 fontSize: { xs: '1.25rem', sm: '2rem' }
                             }}>
                                 Receipt Snapper
