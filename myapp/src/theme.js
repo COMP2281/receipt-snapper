@@ -1,6 +1,10 @@
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
+    zIndex: {
+        drawer: 100,
+    },
+
     palette: {
         primary: {
             main: '#FFB74D' // A nicer orange color
