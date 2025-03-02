@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button, Box, Typography, useTheme } from '@mui/material';
+import PageTitle from '../components/pagetitle.js';
 
 
 export default function Dashboard() {
@@ -23,7 +24,7 @@ export default function Dashboard() {
         <>
             <Navbar />
             <Container>
-                <h1>Dashboard</h1>
+                <PageTitle title="Dashboard" />
                 <Box
                     {...getRootProps()}
                     sx={{

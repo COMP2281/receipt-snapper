@@ -1,5 +1,4 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -9,7 +8,6 @@ import TextField from '@mui/material/TextField';
 export default function Login() {
   return (
     <>
-      <CssBaseline />
       <Container
         maxWidth="xs"
         sx={{

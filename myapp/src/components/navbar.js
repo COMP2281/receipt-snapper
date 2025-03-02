@@ -48,13 +48,12 @@ export default function Navbar() {
                         sx={{
                             flexDirection: 'column',
                             alignItems: 'flex-start',
-                            transition: 'padding 0.3s ease-in-out',
                             paddingTop: '7px',
                             paddingLeft: { xs: '8px', sm: '24px' },
                             paddingRight: { xs: '8px', sm: '24px' },
                         }}
                     >
-                        <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', paddingBottom: {xs: '0px', sm: '7px'} }}>
+                        <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', paddingBottom: '7px' }}>
                             <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
                                 <RSIcon sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }} />
                             </Box>
@@ -93,10 +92,6 @@ export default function Navbar() {
                                 display: { xs: 'flex', md: 'none' },
                                 flexDirection: 'column',
                                 width: '100%',
-                                mt: {
-                                    xs: 1,
-                                    sm: 0,
-                                },
                                 transition: 'max-height 0.3s ease-in-out, padding-bottom 0.3s ease-in-out',
                                 maxHeight: isExpanded ? '200px' : '0px',
                                 overflow: 'hidden',
