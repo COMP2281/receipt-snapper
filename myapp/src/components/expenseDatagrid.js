@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, useTheme } from "@mui/material";
+import { Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import ProgressTag from "./progressTag";
 
@@ -30,7 +30,7 @@ export default function ExpenseDatagrid({ rows }) {
                 '& .MuiDataGrid-cell': {
                     borderTop: '1px solid rgba(255, 255, 255, 0.2)',
                 },
-                // Add a drop shadow to the datagrid
+                maxHeight: '85vh',
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.47)',
 
                 mb: 4,
@@ -127,11 +127,39 @@ export default function ExpenseDatagrid({ rows }) {
 
                         return <ProgressTag text={params.value} color={statusColor} progress={statusProgress} />;
                     }
+                },
+                {
+                    field: 'edit',
+                    headerName: 'Actions',
+                    width: 100,
+                    headerAlign: 'center',
+                    align: 'center',
+                    sortable: false,
+                    filterable: false,
+                    disableColumnMenu: true,
+                    renderCell: (params) => (
+                        // add a nice edit button
+                        <Button 
+                            // try different variants - dotted underlined text
+                            variant="text"
+                            sx={{
+                                color: theme.palette.text.action,
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                            }}
+                            onClick={() => {
+                                console.log('Edit row:', params.row);
+                            }}
+                        >
+                            Edit
+                        </Button>
+                    )
                 }
             ]} 
             pageSize={5}
             rowsPerPageOptions={[5]}
             rowHeight={45}
+        
             
 
         />
