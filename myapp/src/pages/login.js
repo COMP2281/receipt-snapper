@@ -71,6 +71,16 @@ export default function Login() {
         }}>
         Skip to Dashboard (DEV)
         </Button>
+        <Button sx={{
+          mt: 2,
+          color: theme.palette.dev.main,
+          background: theme.palette.dev.bg
+
+        }} onClick={() => {
+          window.location.href = '/edit';
+        }}>
+        Skip to Edit (DEV)
+        </Button>
       </Container>
       <Footer />
     </>
