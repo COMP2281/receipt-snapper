@@ -1,5 +1,6 @@
 import React from "react";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Box, Button } from "@mui/material";
+import RSIcon from "../components/icons";
 
 export default function Error({ code }) {
     if (!code) {
@@ -15,9 +16,32 @@ export default function Error({ code }) {
     const errorText = errors[code] || "An error occurred";
 
     return (
-        <Container>
-            <Typography variant="h1">Error {code}</Typography>
-            <Typography variant="body1">{errorText}</Typography>
+        <Container
+            maxWidth="xs"
+            sx={{
+                mt: 4,
+                mb: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center'
+            }}
+        >
+            <Box
+                sx={{
+                    backgroundColor: '#222222',
+                    boxShadow: 2,
+                    borderRadius: 2,
+                    p: 3,
+                    width: '100%',
+                    border: '1px solid #444444'
+                }}
+            >
+                <RSIcon></RSIcon>
+                <Typography variant="h4" sx={{ mt: 0 }}>Error {code}</Typography>
+                <Typography variant="body1">{errorText}</Typography>
+                <Button variant="contained" href="/" sx={{ mt: 2 }}>Go to Login</Button>
+            </Box>
         </Container>
     );
 }
