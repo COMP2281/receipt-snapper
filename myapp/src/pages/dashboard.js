@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from '@mui/material';
 import Navbar from '../components/navbar.js';
-import { useCallback } from 'react';
 import PageTitle from '../components/pagetitle.js';
 import ExpenseDatagrid from '../components/expenseDatagrid.js';
 import ExpenseUploadBox from '../components/expenseUploadBox.js';
