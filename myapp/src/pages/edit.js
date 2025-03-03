@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+import DocViewer, { PDFRenderer, JPGRenderer, PNGRenderer } from "react-doc-viewer";
 
-<Box sx={{ mt: 0, height: '100%' }}></Box>
 export default function Edit({ transaction }) {
     const theme = useTheme();
 
     const docs = [
-        { uri: "/assets/dev/example-receipt.png"},
+        { uri: "/assets/dev/example-invoice.pdf"},
     ];
 
     return (
@@ -24,7 +23,7 @@ export default function Edit({ transaction }) {
                 textAlign: 'center',
                 justifyContent: 'center',
             }}>
-                <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} theme=
+                <DocViewer documents={docs} pluginRenderers={ [PDFRenderer, JPGRenderer, PNGRenderer] } theme=
                     {{
                         primary: theme.palette.primary.main,
                         secondary: theme.palette.secondary.main,
