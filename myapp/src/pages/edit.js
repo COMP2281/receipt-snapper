@@ -34,6 +34,8 @@ export default function Edit({ transaction }) {
                 overflowY: 'scroll',
             }}>
                 TEXT FIELDS
+
+                // TODO - Add text fields for editing transaction details
             </Box>
         </Container>
     );
