@@ -14,7 +14,7 @@ export default function Edit({ transaction }) {
                 height: { xs: '50%', md: '100%' },
                 overflow: 'hidden',
                 display: 'flex',
-                p: 3,
+                p: 0,
                 m: 0,
                 textAlign: 'center',
                 justifyContent: 'center',
