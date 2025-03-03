@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import FileViewer from "../components/fileViewer";
 
 export default function Edit({ transaction }) {
     const theme = useTheme();
@@ -18,6 +19,9 @@ export default function Edit({ transaction }) {
                 textAlign: 'center',
                 justifyContent: 'center',
             }}>
+
+                <FileViewer file="assets/dev/example-receipt.png"/>
+
             </Box>
             <Box sx={{
                 backgroundColor: '#222222',
