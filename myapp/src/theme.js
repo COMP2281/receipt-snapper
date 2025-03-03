@@ -48,6 +48,7 @@ const theme = createTheme({
             primary: 'radial-gradient(circle,rgb(118, 87, 34) 0%,rgb(31, 26, 11) 100%)',
             secondary: 'radial-gradient(circle,rgb(78, 53, 12) 0%,rgb(31, 26, 11) 100%)',
             navbar: 'linear-gradient(180deg, #FFB74D 0%,rgb(210, 158, 46) 100%)',
+            edit: 'radial-gradient(circle,rgb(34, 34, 34) 0%,rgb(20, 20, 20))'
         },
     },
 });
