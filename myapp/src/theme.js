@@ -42,6 +42,7 @@ const theme = createTheme({
         background: {
             default: '#212121',
             paper: '#424242',
+            paperTransparent: 'rgba(66, 66, 66, 0.6)',
         },
 
         gradient: {
