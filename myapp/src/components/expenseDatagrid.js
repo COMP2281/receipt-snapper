@@ -65,14 +65,16 @@ export default function ExpenseDatagrid({ rows }) {
                 {
                     field: 'description',
                     headerName: 'Description',
-                    width: 150,
+                    width: 250,
                     editable: false,
+                    headerAlign: 'center',
                 },
                 {
                     field: 'category',
                     headerName: 'Category',
-                    width: 150,
+                    width: 200,
                     editable: false,
+                    headerAlign: 'center',
                 },
                 {
                     field: 'amount',
@@ -127,6 +129,20 @@ export default function ExpenseDatagrid({ rows }) {
                         const statusProgress = progresses[params.value] || 100;
 
                         return <ProgressTag text={params.value} color={statusColor} progress={statusProgress} />;
+                    }
+                },
+                {
+                    field: 'projectNumber',
+                    headerName: 'Project',
+                    width: 120,
+                    editable: true,
+                    headerAlign: 'center',
+                    align: 'center',
+                    sortable: true,
+                    filterable: true,
+                    disableColumnMenu: false,
+                    valueFormatter: (value) => {
+                        return value || 'Not Assigned';
                     }
                 },
                 {
