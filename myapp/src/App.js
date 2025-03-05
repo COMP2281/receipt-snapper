@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import Login from "./pages/login.js";
 import Dashboard from "./pages/dashboard.js";
+import AddExpense from "./pages/addExpense.js";
 import Edit from "./pages/edit.js";
 import Error from "./pages/error.js";
 import Footer from "./components/footer.js";
@@ -18,6 +19,7 @@ export default function App() {
           <Routes sx={{ height: '100%' }}>
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/add-expense" element={<AddExpense />} />
             <Route path="/edit" element={<Edit transaction="1" />} />
             <Route path="*" element={<Error code="404" />} />
           </Routes>
