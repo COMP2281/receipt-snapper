@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from '@mui/material';
-import Navbar from '../components/navbar.js';
 import PageTitle from '../components/pageTitle.js';
 import ExpenseDatagrid from '../components/expenseDatagrid.js';
 import ExpenseUploadBox from '../components/expenseUploadBox.js';
