@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { Container, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import FileViewer from "../components/fileViewer";
+import PageTitle from "../components/pageTitle";
+import PageDescription from "../components/pageDescription";
+import ExpenseInfoEditor from "../components/expenseInfoEditor";
 
 export default function Edit({ transaction }) {
     const theme = useTheme();
@@ -33,9 +36,14 @@ export default function Edit({ transaction }) {
                 overflowX: 'hidden',
                 overflowY: 'scroll',
             }}>
-                TEXT FIELDS
+                <PageTitle title="Edit Expense Info" />
+                <PageDescription text="Add or correct details from your imported receipts."
+                    sx={{
+                        mb: 3,
+                    }}/>
 
-                // TODO - Add text fields for editing transaction details
+                <ExpenseInfoEditor transaction={transaction} upload="hide" />
+
             </Box>
         </Container>
     );

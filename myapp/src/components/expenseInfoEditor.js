@@ -4,7 +4,7 @@ import { Box, Container, TextField, MenuItem, Button, Typography } from "@mui/ma
 import { useState } from "react";
 import { useEffect } from "react";
 
-export default function ExpenseInfoEditor({expenseID}) {
+export default function ExpenseInfoEditor({expenseID, upload}) {
     const theme = useTheme();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export default function ExpenseInfoEditor({expenseID}) {
         }
 
         // GET EXPENSE INFO FROM API HERE
-        
+
     }, [expenseID]);
 
     const [formData, setFormData] = useState({
@@ -138,55 +138,56 @@ export default function ExpenseInfoEditor({expenseID}) {
                 fullWidth
                 margin="normal"
             />
-            <Container 
-                sx={{
-                    borderRadius: '5px',
-                    pb: .8,
-                    pt: 1,
-                    mt: 1.5,
-                    textAlign: 'center',
-                    marginBottom: '20px',
-                    background: theme.palette.gradient.secondary,
-                    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.47)', // Added drop shadow
-                }}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                    e.preventDefault();
-                    const file = e.dataTransfer.files[0];
-                    setFormData({
-                        ...formData,
-                        receipt: file,
-                    });
-                }}
-            >
-                <Button
-                    variant="contained"
-                    component="label"
-                    fullWidth
-                    color="secondary"
-                    sx={{ mb: 2, mt: 2}}
+            {upload !== "hide" && (
+                <Container 
+                    sx={{
+                        borderRadius: '5px',
+                        pb: .8,
+                        pt: 1,
+                        mt: 1.5,
+                        textAlign: 'center',
+                        marginBottom: '20px',
+                        background: theme.palette.gradient.secondary,
+                        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.47)', // Added drop shadow
+                    }}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                        e.preventDefault();
+                        const file = e.dataTransfer.files[0];
+                        setFormData({
+                            ...formData,
+                            receipt: file,
+                        });
+                    }}
                 >
-                    Upload Receipt (Optional)
-                    <input
-                        type="file"
-                        hidden
-                        onChange={handleFileChange}
-                    />
-                </Button>
-                <Typography variant="body2" sx={{ mb: 2, textAlign: 'center' }}>
-                    {formData.receipt ? `Selected file: ${formData.receipt.name}` : "No file chosen"}
-                </Typography>   
-            </Container>
+                    <Button
+                        variant="contained"
+                        component="label"
+                        fullWidth
+                        color="secondary"
+                        sx={{ mb: 2, mt: 2}}
+                    >
+                        Upload Receipt (Optional)
+                        <input
+                            type="file"
+                            hidden
+                            onChange={handleFileChange}
+                        />
+                    </Button>
+                    <Typography variant="body2" sx={{ mb: 2, textAlign: 'center' }}>
+                        {formData.receipt ? `Selected file: ${formData.receipt.name}` : "No file chosen"}
+                    </Typography>   
+                </Container>
+            )}
             <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx = {{ mt: 1 }}
+                sx = {{ mt: 2 }}
             >
                 Submit
             </Button>
         </form>
-
     );
 }
