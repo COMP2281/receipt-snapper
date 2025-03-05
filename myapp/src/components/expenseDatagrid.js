@@ -132,7 +132,7 @@ export default function ExpenseDatagrid({ rows }) {
                 {
                     field: 'edit',
                     headerName: 'Actions',
-                    width: 100,
+                    width: 85,
                     headerAlign: 'center',
                     align: 'center',
                     sortable: false,
