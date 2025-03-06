@@ -31,5 +31,7 @@ urlpatterns = [
     path('login_system/', include('login_system.urls')),
     path('api/manual/', include('manual_inputs.urls')),
     path('api/export/', include('export.urls')),  
+    path('upload/', include('upload.urls')),  
 ]
+
 

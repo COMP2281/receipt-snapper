@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'manual_inputs',
     'previous_expenses',
     'export',
+    'upload',
 
     'django.contrib.admin',
     'django.contrib.auth',
