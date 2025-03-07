@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'previous_expenses',
     'export',
     'upload',
+    'card_data',
 
     'django.contrib.admin',
     'django.contrib.auth',
