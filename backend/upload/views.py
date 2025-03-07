@@ -5,9 +5,18 @@ from .serializers import BlobSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+import os
+from dotenv import load_dotenv
 
 #Connecting to Azura Storage
-connect_str = "DefaultEndpointsProtocol=https;AccountName=softeng24;AccountKey=jo5n17XeGmoOsNgXZdDhr2HrpjYWrKvlNZcmecVv7ZW6EG88mecGmyD6i+2yKv3abyzw7L9WLwvw+ASt25w13w==;EndpointSuffix=core.windows.net" 
+
+load_dotenv()
+connect_str = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+
+if not connect_str:
+    raise ValueError("Azure Storage connection string is not set in environment variables.")
+
+
 blob_service_client = BlobServiceClient.from_connection_string(connect_str) 
 
 #Container to store images
