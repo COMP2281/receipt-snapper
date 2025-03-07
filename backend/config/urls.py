@@ -30,7 +30,8 @@ urlpatterns = [
     #path('', include('myapi.urls')),
     path('login_system/', include('login_system.urls')),
     path('api/manual/', include('manual_inputs.urls')),
-    path('api/export/', include('export.urls')),  
+    path('api/export/', include('export.urls')), 
+    path('card_data/', include('card_data.urls')),   
     path('upload/', include('upload.urls')),  
 ]
 
