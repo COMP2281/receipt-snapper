@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import FileViewer from "../components/fileViewer";
