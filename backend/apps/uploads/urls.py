@@ -1,5 +1,6 @@
 from django.urls import path
+from .views import UploadBlobView
 
 urlpatterns = [
-    # Add your URL patterns here
+    path('', UploadBlobView.as_view(), name='upload_blob'),
 ]
