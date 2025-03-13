@@ -5,10 +5,13 @@ from users.models import User
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    objects = models.Manager()
+
 
 class Project(models.Model):
     id = models.CharField(max_length=50, primary_key=True)
     name = models.CharField(max_length=100)
+    objects = models.Manager()
 
 class Status(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
@@ -25,3 +28,5 @@ class Expense(models.Model):
     line_item = models.ForeignKey(CardData, on_delete=models.SET_NULL, null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
+
+    objects = models.Manager()
