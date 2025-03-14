@@ -9,6 +9,7 @@ import { useTheme } from '@mui/material/styles';
 export default function Login() {
   const theme = useTheme();
 
+<<<<<<< HEAD
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
@@ -40,6 +41,8 @@ export default function Login() {
     }
   };
 
+=======
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
   return (
     <>
       <Container
@@ -64,7 +67,10 @@ export default function Login() {
           }}
         >
           <h1 style={{ marginTop: 0 }}>Login</h1>
+<<<<<<< HEAD
           {error && <p style={{ color: 'red', marginTop: '-13px' }}>{error}</p>}
+=======
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
           <Box
             component="form"
             sx={{
@@ -74,21 +80,30 @@ export default function Login() {
               width: '100%',
               mt: 2
             }}
+<<<<<<< HEAD
             onSubmit={handleSubmit}
+=======
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
           >
             <TextField 
               label="Email" 
               type="email" 
               required 
+<<<<<<< HEAD
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+=======
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
             />
             <TextField 
               label="Password" 
               type="password" 
               required 
+<<<<<<< HEAD
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+=======
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
             />
             <Button 
               variant="contained" 

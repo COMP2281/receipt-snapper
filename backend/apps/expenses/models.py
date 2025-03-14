@@ -16,6 +16,7 @@ class Project(models.Model):
 class Status(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
+<<<<<<< HEAD
     objects = models.Manager()
 
 class Expense(models.Model):
@@ -31,5 +32,19 @@ class Expense(models.Model):
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
     image_url = models.URLField(null=True, blank=True)
+=======
+class Expense(models.Model):
+    date = models.DateField()
+    description = models.TextField(null=True, blank=True)
+    company_paid = models.CharField(max_length=50, null=True, blank=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency_code = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    location_code = models.ForeignKey(Location, on_delete=models.CASCADE)
+    line_item = models.ForeignKey(CardData, on_delete=models.SET_NULL, null=True, blank=True)
+    project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE)
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
 
     objects = models.Manager()

@@ -5,6 +5,7 @@ import FileViewer from "../components/fileViewer";
 import PageTitle from "../components/pageTitle";
 import PageDescription from "../components/pageDescription";
 import ExpenseInfoEditor from "../components/expenseInfoEditor";
+<<<<<<< HEAD
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -40,6 +41,12 @@ export default function Edit() {
         return <div>Loading...</div>;
     }
 
+=======
+
+export default function Edit({ transaction }) {
+    const theme = useTheme();
+
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
     return (
         <Container maxWidth={false} disableGutters sx={{ mt: -2, display: 'flex', flexDirection: { xs: "column", md: "row" }, alignItems: 'stretch', height: 'calc(100vh - 72px)', position: 'relative' }}>
             <Box sx={{
@@ -54,7 +61,11 @@ export default function Edit() {
                 justifyContent: 'center',
             }}>
 
+<<<<<<< HEAD
                     <FileViewer file={transaction.image_url}/>
+=======
+                <FileViewer file="assets/dev/example-receipt.png"/>
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
 
             </Box>
             <Box sx={{
@@ -73,7 +84,11 @@ export default function Edit() {
                         mb: 3,
                     }}/>
 
+<<<<<<< HEAD
                 <ExpenseInfoEditor transaction={transaction} upload="hide" requireAll={false} />
+=======
+                <ExpenseInfoEditor transaction={transaction} upload="hide" />
+>>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
 
             </Box>
         </Container>
