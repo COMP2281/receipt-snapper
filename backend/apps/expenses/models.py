@@ -16,17 +16,20 @@ class Project(models.Model):
 class Status(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
 
+    objects = models.Manager()
+
 class Expense(models.Model):
-    date = models.DateField()
+    date = models.DateField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     company_paid = models.CharField(max_length=50, null=True, blank=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    currency_code = models.ForeignKey(Currency, on_delete=models.CASCADE)
+    amount = models.DecimalField(null=True, max_digits=10, decimal_places=2)
+    currency_code = models.ForeignKey(Currency, null=True, blank=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    location_code = models.ForeignKey(Location, on_delete=models.CASCADE)
+    location_code = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
     line_item = models.ForeignKey(CardData, on_delete=models.SET_NULL, null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    image_url = models.URLField(null=True, blank=True)
 
     objects = models.Manager()

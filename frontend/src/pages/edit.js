@@ -5,9 +5,40 @@ import FileViewer from "../components/fileViewer";
 import PageTitle from "../components/pageTitle";
 import PageDescription from "../components/pageDescription";
 import ExpenseInfoEditor from "../components/expenseInfoEditor";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function Edit({ transaction }) {
+export default function Edit() {
+    const { id } = useParams();
+
     const theme = useTheme();
+
+    const [transaction, setTransaction] = useState(null);
+
+    useEffect(() => {
+        async function fetchTransaction() {
+            try {
+                const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+                const response = await fetch(`/api/v1/expense/${id}`, {
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                });
+                const data = await response.json();
+                setTransaction(data);
+                console.log(data);
+            } catch (error) {
+                console.error("Error fetching transaction:", error);
+            }
+        }
+
+        fetchTransaction();
+    }, [id]);
+        
+
+    if (!transaction) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Container maxWidth={false} disableGutters sx={{ mt: -2, display: 'flex', flexDirection: { xs: "column", md: "row" }, alignItems: 'stretch', height: 'calc(100vh - 72px)', position: 'relative' }}>
@@ -23,7 +54,7 @@ export default function Edit({ transaction }) {
                 justifyContent: 'center',
             }}>
 
-                <FileViewer file="assets/dev/example-receipt.png"/>
+                    <FileViewer file={transaction.image_url}/>
 
             </Box>
             <Box sx={{
@@ -42,7 +73,7 @@ export default function Edit({ transaction }) {
                         mb: 3,
                     }}/>
 
-                <ExpenseInfoEditor transaction={transaction} upload="hide" />
+                <ExpenseInfoEditor transaction={transaction} upload="hide" requireAll={false} />
 
             </Box>
         </Container>

@@ -4,17 +4,26 @@ import { Box, Container, TextField, MenuItem, Button, Typography } from "@mui/ma
 import { useState } from "react";
 import { useEffect } from "react";
 
-export default function ExpenseInfoEditor({expenseID, upload}) {
+export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
     const theme = useTheme();
 
+
     useEffect(() => {
-        if (!expenseID) {
+        if (!transaction) {
             return;
         }
 
-        // GET EXPENSE INFO FROM API HERE
-
-    }, [expenseID]);
+        setFormData({
+            date: transaction.date || "",
+            category: transaction.category || "",
+            description: transaction.description || "",
+            currency: transaction.currency || "GBP",
+            amount: (transaction.amount / 100).toFixed(2) || "",
+            location: transaction.location || "GB",
+            projectNumber: transaction.project || "",
+            receipt: null,
+        });
+    }, [transaction]);
 
     const [formData, setFormData] = useState({
         date: "",
@@ -42,15 +51,47 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission
-        console.log(formData);
+        const formDataToSend = new FormData();
+        for (const key in formData) {
+            formDataToSend.append(key, formData[key]);
+        }
+
+        try {
+            formDataToSend.set('date', new Date(formData.date).toISOString().split('T')[0]);
+        } catch (error) {
+            formDataToSend.set('date', '');
+        }
+
+        formDataToSend.set('amount', parseInt(formDataToSend.get('amount')*100));
+
+        try {
+            const response = await fetch(`/api/v1/expense/${transaction.id}/update`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`,
+                },
+                body: formDataToSend,
+            });
+
+            if (!response.ok) {
+                console.log('response:', response.text);
+                throw new Error('Failed to update expense');
+                
+            }
+
+            const result = await response.json();
+            console.log('Expense updated successfully:', result);
+            window.location.href = '/dashboard';
+        } catch (error) {
+            console.error('Error updating expense:', error);
+        }
+
     };
 
-
     return (
-        <form onSubmit={{handleSubmit}} style={{ flex: 1 }}>
+        <form onSubmit={handleSubmit} style={{ flex: 1 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, p: 0, mt: 1, mb: 1 }}>
                 <TextField
                     label="Date"
@@ -60,11 +101,11 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     onChange={handleChange}
                     fullWidth
                     margin="dense"
-                    InputLabelProps={{
+                    slotProps={{ inputLabel: {
                         shrink: true,
-                    }}
-                    required
-                    sx={{ m: 0, p: 0, width: '50%' }}   
+                    }}}
+                    required={requireAll !== false}
+                    sx={{ m: 0, p: 0, width: '50%' }}
                 />
                 <TextField
                     label="Expense Location"
@@ -74,7 +115,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     onChange={handleChange}
                     fullWidth
                     margin="dense"
-                    required
+                    required={requireAll !== false}
                     sx={{ m: 0, p: 0, width: '50%' }}
                 >
                     <MenuItem value="GB">GB</MenuItem>
@@ -89,7 +130,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
-                required
+                required={requireAll !== false}
             >
                 <MenuItem value="travel">Travel</MenuItem>
                 <MenuItem value="food">Food</MenuItem>
@@ -103,7 +144,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
-                required
+                required={requireAll !== false}
             />
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, p: 0, mt: 2, mb: 1 }}>
                 <TextField
@@ -112,8 +153,9 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     name="amount"
                     value={formData.amount}
                     onChange={handleChange}
+                    onBlur={(e) => setFormData({ ...formData, amount: Number(e.target.value).toFixed(2) })}
                     fullWidth
-                    required
+                    required={requireAll !== false}
                     sx={{ m: 0 }}
                 />
                 <TextField
@@ -123,7 +165,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     value={formData.currency || "GBP"}
                     onChange={handleChange}
                     fullWidth
-                    required
+                    required={requireAll !== false}
                     sx={{ m: 0 }}
                 >
                     <MenuItem value="GBP">GBP</MenuItem>
@@ -137,9 +179,10 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
+                required={requireAll !== false}
             />
             {upload !== "hide" && (
-                <Container 
+                <Container
                     sx={{
                         borderRadius: '5px',
                         pb: .8,
@@ -165,7 +208,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                         component="label"
                         fullWidth
                         color="secondary"
-                        sx={{ mb: 2, mt: 2}}
+                        sx={{ mb: 2, mt: 2 }}
                     >
                         Upload Receipt (Optional)
                         <input
@@ -176,7 +219,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     </Button>
                     <Typography variant="body2" sx={{ mb: 2, textAlign: 'center' }}>
                         {formData.receipt ? `Selected file: ${formData.receipt.name}` : "No file chosen"}
-                    </Typography>   
+                    </Typography>
                 </Container>
             )}
             <Button
@@ -184,7 +227,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx = {{ mt: 2 }}
+                sx={{ mt: 2 }}
             >
                 Submit
             </Button>

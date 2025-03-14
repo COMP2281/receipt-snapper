@@ -20,9 +20,29 @@ export default function Navbar() {
         <>
             <Button color="inherit" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
             <Button color="inherit" onClick={() => window.location.href = '/card-data'}>Card Data</Button>
-            <Button color="inherit" onClick={() => window.location.href = '/'}>Logout</Button>
+            <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </>
     );
+
+    const handleLogout = async () => {
+        try {
+            // Send a request to the logout endpoint
+            await fetch('/api/v1/user/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            // Clear the local storage token
+            localStorage.removeItem('token');
+
+            // Redirect to the home page
+            window.location.href = '/';
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
 
     return (
         <>

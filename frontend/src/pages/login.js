@@ -9,6 +9,37 @@ import { useTheme } from '@mui/material/styles';
 export default function Login() {
   const theme = useTheme();
 
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError('');
+
+    try {
+      const response = await fetch('/api/v1/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Incorrect Email or Password');
+      }
+
+      const data = await response.json();
+      // Save the token in local storage or state management
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('firstName', data.first_name);
+      window.location.href = '/dashboard';
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
   return (
     <>
       <Container
@@ -33,6 +64,7 @@ export default function Login() {
           }}
         >
           <h1 style={{ marginTop: 0 }}>Login</h1>
+          {error && <p style={{ color: 'red', marginTop: '-13px' }}>{error}</p>}
           <Box
             component="form"
             sx={{
@@ -42,16 +74,21 @@ export default function Login() {
               width: '100%',
               mt: 2
             }}
+            onSubmit={handleSubmit}
           >
             <TextField 
               label="Email" 
               type="email" 
               required 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField 
               label="Password" 
               type="password" 
               required 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button 
               variant="contained" 

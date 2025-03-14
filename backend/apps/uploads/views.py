@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from rest_framework.permissions import IsAuthenticated
 import uuid
 from datetime import datetime
+from expenses.models import Expense, Status
 
 #Connecting to Azura Storage
 
@@ -25,47 +26,85 @@ container_name="receipts"
 container_client = blob_service_client.get_container_client(container_name)
 print(container_client)
 
+
+def uploadImage(request):
+
+    if 'image' not in request.FILES:
+        return Response({"error": "No image file found"}, status=status.HTTP_400_BAD_REQUEST)
+    image = request.FILES['image']
+    
+
+    image_name = image.name.replace(" ", "_")
+    image_extension = image_name.split(".")[-1]
+    image_extension = image_extension.lower()
+    if image_extension == "jpeg":
+        image_extension = "jpg"
+
+    if image_extension not in ["jpg", " png", "gif", "bmp", "heic", "webp", "pdf"]:
+        return Response({"error": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST),
+
+    image.name = f"{image_name.split('.')[0]}.{image_extension}"
+
+    current_time = datetime.now().strftime("%Y%m%d%H%M%S")
+    blob_name = f"{uuid.uuid4()}-{current_time}-{image.name}"
+    
+    print(blob_name)
+    try:
+        # Uploads to Azure and let Azure assign a unique name
+        blob_client = container_client.upload_blob(data=image, name=blob_name)
+
+        print(blob_client)
+
+        # Get the assigned name
+        unique_blob_name = blob_client.blob_name
+
+        print("uploaded")
+        # Generates the unique URL
+        blob_url = f"https://{blob_service_client.account_name}.blob.core.windows.net/{container_name}/{unique_blob_name}"
+        # Saves metadata to db
+
+        return Response({
+            "message": "Image uploaded successfully",
+            "blob_name": blob_name,
+            "blob_url": blob_url
+        }, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class UploadBlobView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        if 'image' not in request.FILES:
-            return Response({"error": "No image file found"}, status=status.HTTP_400_BAD_REQUEST)
-        image = request.FILES['image']
 
-        image_name = image.name
-        image_extension = image_name.split(".")[-1]
-        image_extension = image_extension.lower()
-        if image_extension == "jpeg":
-            image_extension = "jpg"
+        image_response = uploadImage(request)
 
-        if image_extension not in ["jpg", "png", "gif", "bmp", "heic", "webp", "pdf"]:
-            return Response({"error": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST),
+        return image_response
 
-        image.name = f"{image_name.split('.')[0]}.{image_extension}"
-
-        current_time = datetime.now().strftime("%Y%m%d%H%M%S")
-        blob_name = f"{uuid.uuid4()}-{current_time}-{image.name}"
+    
         
-        print(blob_name)
+
+class UploadBlobAndCreateExpenseView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        response = uploadImage(request)
+
+        if response.status_code != 200:
+            return response
+    
+        ## Create an Expense
+
         try:
-            # Uploads to Azure and let Azure assign a unique name
-            blob_client = container_client.upload_blob(data=image, name=blob_name)
-
-            print(blob_client)
-
-            # Get the assigned name
-            unique_blob_name = blob_client.blob_name
-
-            print("uploaded")
-            # Generates the unique URL
-            blob_url = f"https://{blob_service_client.account_name}.blob.core.windows.net/{container_name}/{unique_blob_name}"
-            # Saves metadata to db
-
+            expense = Expense.objects.create(
+                image_url=response.data['blob_url'],
+                status=Status.objects.get(name="Queued"),
+                user=request.user
+            )
             return Response({
-                "message": "Image uploaded successfully",
-                "blob_name": blob_name,
-                "blob_url": blob_url
-            }, status=status.HTTP_200_OK)
+            "message": "Image uploaded and expense created successfully",
+            "expense_id": expense.id,
+            "blob_url": response.data['blob_url']
+            }, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+

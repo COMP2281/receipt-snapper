@@ -164,7 +164,7 @@ export default function ExpenseDatagrid({ rows }) {
                                 cursor: 'pointer',
                             }}
                             onClick={() => {
-                                console.log('Edit row:', params.row.id);
+                                window.location.href = `/edit/${params.id}`;
                             }}
                         >
                             Edit
