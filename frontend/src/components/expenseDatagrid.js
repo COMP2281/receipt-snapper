@@ -85,6 +85,9 @@ export default function ExpenseDatagrid({ rows }) {
                     align: 'center',
                     valueFormatter: (params, row) => {
                         const value = parseInt(params) / 100;
+                        if (isNaN(value)) {
+                            return '';
+                        }
                         const currency = row.currency || 'GBP';
                         return new Intl.NumberFormat('en-GB', {
                             style: 'currency',

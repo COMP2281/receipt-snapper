@@ -131,8 +131,6 @@ class UpdateExpenseView(APIView):
 
     def put(self, request, expense_id):
         data = request.data
-        print(data)
-        print(data.get('date'))
         try:
             expense = Expense.objects.get(id=expense_id)
         except ObjectDoesNotExist:
@@ -167,9 +165,9 @@ class UpdateExpenseView(APIView):
             except (TypeError, ValueError):
                 return Response({"error": "'amount' must be an integer representing pennies."}, status=status.HTTP_400_BAD_REQUEST)
         
-        if 'currency_code' in data and data.get('currency_code') != '':
+        if 'currency' in data and data.get('currency_code') != '':
             try:
-                currency_code = Currency.objects.get(code=data.get('currency_code'))
+                currency_code = Currency.objects.get(code=data.get('currency'))
                 expense.currency_code = currency_code
             except Currency.DoesNotExist:
                 return Response({"error": "Currency code not found."}, status=status.HTTP_404_NOT_FOUND)
