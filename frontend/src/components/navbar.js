@@ -20,7 +20,6 @@ export default function Navbar() {
         <>
             <Button color="inherit" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
             <Button color="inherit" onClick={() => window.location.href = '/card-data'}>Card Data</Button>
-<<<<<<< HEAD
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </>
     );
@@ -45,12 +44,6 @@ export default function Navbar() {
         }
     };
 
-=======
-            <Button color="inherit" onClick={() => window.location.href = '/'}>Logout</Button>
-        </>
-    );
-
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
     return (
         <>
             <Box // Screen darkening overlay when hamburger menu is expanded

@@ -4,7 +4,6 @@ import { Box, Container, TextField, MenuItem, Button, Typography } from "@mui/ma
 import { useState } from "react";
 import { useEffect } from "react";
 
-<<<<<<< HEAD
 export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
     const theme = useTheme();
 
@@ -25,19 +24,6 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
             receipt: null,
         });
     }, [transaction]);
-=======
-export default function ExpenseInfoEditor({expenseID, upload}) {
-    const theme = useTheme();
-
-    useEffect(() => {
-        if (!expenseID) {
-            return;
-        }
-
-        // GET EXPENSE INFO FROM API HERE
-
-    }, [expenseID]);
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
 
     const [formData, setFormData] = useState({
         date: "",
@@ -65,7 +51,6 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
         });
     };
 
-<<<<<<< HEAD
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formDataToSend = new FormData();
@@ -107,17 +92,6 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
 
     return (
         <form onSubmit={handleSubmit} style={{ flex: 1 }}>
-=======
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle form submission
-        console.log(formData);
-    };
-
-
-    return (
-        <form onSubmit={{handleSubmit}} style={{ flex: 1 }}>
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, p: 0, mt: 1, mb: 1 }}>
                 <TextField
                     label="Date"
@@ -127,19 +101,11 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     onChange={handleChange}
                     fullWidth
                     margin="dense"
-<<<<<<< HEAD
                     slotProps={{ inputLabel: {
                         shrink: true,
                     }}}
                     required={requireAll !== false}
                     sx={{ m: 0, p: 0, width: '50%' }}
-=======
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    required
-                    sx={{ m: 0, p: 0, width: '50%' }}   
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                 />
                 <TextField
                     label="Expense Location"
@@ -149,11 +115,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     onChange={handleChange}
                     fullWidth
                     margin="dense"
-<<<<<<< HEAD
                     required={requireAll !== false}
-=======
-                    required
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                     sx={{ m: 0, p: 0, width: '50%' }}
                 >
                     <MenuItem value="GB">GB</MenuItem>
@@ -168,11 +130,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
-<<<<<<< HEAD
                 required={requireAll !== false}
-=======
-                required
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
             >
                 <MenuItem value="travel">Travel</MenuItem>
                 <MenuItem value="food">Food</MenuItem>
@@ -186,11 +144,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
-<<<<<<< HEAD
                 required={requireAll !== false}
-=======
-                required
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
             />
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, p: 0, mt: 2, mb: 1 }}>
                 <TextField
@@ -199,14 +153,9 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     name="amount"
                     value={formData.amount}
                     onChange={handleChange}
-<<<<<<< HEAD
                     onBlur={(e) => setFormData({ ...formData, amount: Number(e.target.value).toFixed(2) })}
                     fullWidth
                     required={requireAll !== false}
-=======
-                    fullWidth
-                    required
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                     sx={{ m: 0 }}
                 />
                 <TextField
@@ -216,11 +165,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     value={formData.currency || "GBP"}
                     onChange={handleChange}
                     fullWidth
-<<<<<<< HEAD
                     required={requireAll !== false}
-=======
-                    required
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                     sx={{ m: 0 }}
                 >
                     <MenuItem value="GBP">GBP</MenuItem>
@@ -234,16 +179,10 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 onChange={handleChange}
                 fullWidth
                 margin="normal"
-<<<<<<< HEAD
                 required={requireAll !== false}
             />
             {upload !== "hide" && (
                 <Container
-=======
-            />
-            {upload !== "hide" && (
-                <Container 
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                     sx={{
                         borderRadius: '5px',
                         pb: .8,
@@ -269,11 +208,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                         component="label"
                         fullWidth
                         color="secondary"
-<<<<<<< HEAD
                         sx={{ mb: 2, mt: 2 }}
-=======
-                        sx={{ mb: 2, mt: 2}}
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                     >
                         Upload Receipt (Optional)
                         <input
@@ -284,11 +219,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                     </Button>
                     <Typography variant="body2" sx={{ mb: 2, textAlign: 'center' }}>
                         {formData.receipt ? `Selected file: ${formData.receipt.name}` : "No file chosen"}
-<<<<<<< HEAD
                     </Typography>
-=======
-                    </Typography>   
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                 </Container>
             )}
             <Button
@@ -296,11 +227,7 @@ export default function ExpenseInfoEditor({expenseID, upload}) {
                 variant="contained"
                 color="primary"
                 fullWidth
-<<<<<<< HEAD
                 sx={{ mt: 2 }}
-=======
-                sx = {{ mt: 2 }}
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
             >
                 Submit
             </Button>

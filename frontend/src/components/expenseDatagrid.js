@@ -85,12 +85,9 @@ export default function ExpenseDatagrid({ rows }) {
                     align: 'center',
                     valueFormatter: (params, row) => {
                         const value = parseInt(params) / 100;
-<<<<<<< HEAD
                         if (isNaN(value)) {
                             return '';
                         }
-=======
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                         const currency = row.currency || 'GBP';
                         return new Intl.NumberFormat('en-GB', {
                             style: 'currency',
@@ -170,11 +167,7 @@ export default function ExpenseDatagrid({ rows }) {
                                 cursor: 'pointer',
                             }}
                             onClick={() => {
-<<<<<<< HEAD
                                 window.location.href = `/edit/${params.id}`;
-=======
-                                console.log('Edit row:', params.row.id);
->>>>>>> b4aecccb77a27effc4eea8436e51d5f57217a08c
                             }}
                         >
                             Edit
