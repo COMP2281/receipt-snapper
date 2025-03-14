@@ -29,7 +29,14 @@ urlpatterns = [
     path("api/v1/export", include("exports.urls")),
     path("api/v1/card_data", include("card_data.urls")),
     path('', TemplateView.as_view(template_name="index.html")),
+    re_path(r'dashboard/*', TemplateView.as_view(template_name="index.html")),
+    re_path(r'edit/*', TemplateView.as_view(template_name="index.html")),
+    re_path(r'card-data/*', TemplateView.as_view(template_name="index.html")),
+    re_path(r'add-expense/*', TemplateView.as_view(template_name="index.html")),
+    
+    re_path(r'static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT + '/static'}),
     re_path(r'(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    
 ]
 
 
