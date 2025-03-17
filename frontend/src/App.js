@@ -20,7 +20,7 @@ export default function App() {
         <Router>
           <AuthHandler />
           <Navbar />
-        <Navbar />\
+        <Navbar />
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
