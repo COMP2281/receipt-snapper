@@ -125,7 +125,35 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
 
             const result = await response.json();
             console.log('Expense updated successfully:', result);
-            window.location.href = '/dashboard';
+
+
+            if (formData.receipt) {
+                const uploadFormData = new FormData();
+                uploadFormData.append('image', formData.receipt);
+                uploadFormData.append('expense_id', transactionId);
+
+                try {
+                    const uploadResponse = await fetch(`/api/v1/upload/updateExpense`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Token ${localStorage.getItem('token')}`,
+                        },
+                        body: uploadFormData,
+                    });
+
+                    if (!uploadResponse.ok) {
+                        throw new Error('Failed to upload receipt');
+                    }
+
+                    const uploadResult = await uploadResponse.json();
+                    console.log('Receipt uploaded successfully:', uploadResult);
+                    window.location.href = '/dashboard';
+                } catch (error) {
+                    console.error('Error uploading receipt:', error);
+                }
+            } else {
+                window.location.href = '/dashboard';
+            }
         } catch (error) {
             console.error('Error updating expense:', error);
         }

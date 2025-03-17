@@ -40,8 +40,8 @@ def uploadImage(request):
     if image_extension == "jpeg":
         image_extension = "jpg"
 
-    if image_extension not in ["jpg", " png", "gif", "bmp", "heic", "webp", "pdf"]:
-        return Response({"error": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST),
+    if image_extension not in ["jpg", "png", "gif", "bmp", "heic", "webp", "pdf"]:
+        return Response({"error": "Invalid image format"}, status=status.HTTP_400_BAD_REQUEST)
 
     image.name = f"{image_name.split('.')[0]}.{image_extension}"
 
@@ -108,3 +108,30 @@ class UploadBlobAndCreateExpenseView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class UploadBlobAndUpdateExpense(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        expense_id = request.data.get('expense_id')
+        try:
+            expense = Expense.objects.get(id=expense_id)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
+        
+        if expense.image_url is not None and expense.image_url != "/assets/placeholder.png":
+            return Response({"error": "This expense already has an image"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+        response = uploadImage(request)
+
+        if response.status_code != 200:
+            return response
+
+        expense.image_url = response.data['blob_url']
+        expense.save()
+
+        return Response({
+            "message": "Image uploaded and expense updated successfully",
+            "expense_id": expense.id,
+            "blob_url": response.data['blob_url']
+        }, status=status.HTTP_200_OK)
