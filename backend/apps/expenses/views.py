@@ -211,3 +211,26 @@ class GetCategoriesView(APIView):
         categories = Category.objects.all()
         categories_data = [{"id": category.id, "name": category.name} for category in categories]
         return Response(categories_data, status=status.HTTP_200_OK)
+    
+class ListProjectsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        projects = Project.objects.all()
+        projects_data = [{"id": project.id, "name": project.name} for project in projects]
+        return Response(projects_data, status=status.HTTP_200_OK)
+    
+class ProjectInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, project_id):
+        try:
+            project = Project.objects.get(id=project_id)
+        except ObjectDoesNotExist:
+            return Response({"error": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        project_data = {
+            "id": project.id,
+            "name": project.name
+        }
+        return Response(project_data, status=status.HTTP_200_OK)

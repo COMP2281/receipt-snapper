@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import ListExpensesView, ExpenseInfoView, CreateExpenseView, UpdateExpenseView, DeleteExpenseView, GetCategoriesView
+from .views import ListExpensesView, ExpenseInfoView, CreateExpenseView, UpdateExpenseView, DeleteExpenseView, GetCategoriesView, ListProjectsView, ProjectInfoView
 
 urlpatterns = [
     path('', ListExpensesView.as_view(), name='list'),
@@ -9,4 +9,7 @@ urlpatterns = [
     path('<int:expense_id>/delete', DeleteExpenseView.as_view(), name='delete'),
 
     path('categories', GetCategoriesView.as_view(), name='categories'),
+
+    path('project', ListProjectsView.as_view(), name='list_projects'),
+    path('project/<int:project_id>', ProjectInfoView.as_view(), name='project_info'),
 ]
