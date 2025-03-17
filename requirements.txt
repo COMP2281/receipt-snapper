@@ -2,5 +2,5 @@ Django>=3.2,<4.0
 djangorestframework
 psycopg2-binary
 python-dotenv
-djangocorsheaders
+django-cors-headers
 djangorestframework
