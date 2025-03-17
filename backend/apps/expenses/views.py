@@ -203,3 +203,11 @@ class DeleteExpenseView(APIView):
 
         expense.delete()
         return Response({"message": f"Expense with id {expense_id} deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+class GetCategoriesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        categories = Category.objects.all()
+        categories_data = [{"id": category.id, "name": category.name} for category in categories]
+        return Response(categories_data, status=status.HTTP_200_OK)
