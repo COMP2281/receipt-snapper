@@ -172,9 +172,9 @@ class UpdateExpenseView(APIView):
             except Currency.DoesNotExist:
                 return Response({"error": "Currency code not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if 'category_id' in data and data.get('category_id') != '':
+        if 'category' in data and data.get('category') != '':
             try:
-                category = Category.objects.get(id=data.get('category_id'))
+                category = Category.objects.get(id=data.get('category'))
                 expense.category = category
             except Category.DoesNotExist:
                 return Response({"error": "Category not found."}, status=status.HTTP_404_NOT_FOUND)

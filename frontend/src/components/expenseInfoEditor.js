@@ -90,6 +90,29 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
 
     };
 
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('/api/v1/expense/categories', {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to fetch categories');
+                }
+                const data = await response.json();
+                setCategories(data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
     return (
         <form onSubmit={handleSubmit} style={{ flex: 1 }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, p: 0, mt: 1, mb: 1 }}>
@@ -132,10 +155,11 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
                 margin="normal"
                 required={requireAll !== false}
             >
-                <MenuItem value="travel">Travel</MenuItem>
-                <MenuItem value="food">Food</MenuItem>
-                <MenuItem value="accommodation">Accommodation</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
+                {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.id}>
+                        {category.name}
+                    </MenuItem>
+                ))}
             </TextField>
             <TextField
                 label="Description"
