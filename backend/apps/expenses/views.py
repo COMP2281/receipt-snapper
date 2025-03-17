@@ -68,63 +68,12 @@ class CreateExpenseView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        # create expense
-        # the data given is going to be:
-        # date, location code, category (id or if name is provided with no existing category make a new one), description, amount, currency code, project number (and if this number doesnt exist make a new one)
+        # create a blank expense and return the ID
 
-        data = request.data
-        category = None
-        project = None
-
-        # Validate required fields
-        required_fields = ['date', 'location_code', 'description', 'amount', 'currency_code']
-        for field in required_fields:
-            if field not in data:
-                return Response({"error": f"'{field}' is required."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Validate amount
-        try:
-            amount = int(data.get('amount'))
-        except (TypeError, ValueError):
-            return Response({"error": "'amount' must be an integer representing pennies."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Validate date
-        try:
-            date = data.get('date')
-            # Assuming date is in 'YYYY-MM-DD' format
-            datetime.strptime(date, '%Y-%m-%d')
-        except (TypeError, ValueError):
-            return Response({"error": "'date' must be in 'YYYY-MM-DD' format."}, status=status.HTTP_400_BAD_REQUEST)
-
-        if 'category_id' in data:
-            category_id = data.get('category_id')
-            category, created = Category.objects.get(id=category_id)
-        else:
-            category_name = data.get('category_name')
-            category, created = Category.objects.get_or_create(name=category_name)
-        
-        if 'project_id' in data:
-            project_id = data.get('project_id')
-            project, created = Project.objects.get(id=project_id)
-        else:
-            project_name = data.get('project_name')
-            project, created = Project.objects.get_or_create(name=project_name)
-        
-        try: 
-            expense = Expense.objects.create(
-                user=request.user,
-                date=date,
-                location_code=data.get('location_code'),
-                category=category,
-                description=data.get('description'),
-                amount=amount,
-                currency_code=data.get('currency_code'),
-                project=project,
-                image_url=data.get('image_url'),
-                status="Waiting"
-            )
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        expense = Expense.objects.create(
+            user=request.user,
+            status=Status.objects.get(name='Waiting')
+        )
 
         return Response({"expense_id": expense.id}, status=status.HTTP_201_CREATED)
 

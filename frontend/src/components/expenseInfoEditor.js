@@ -55,6 +55,36 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        let transactionId = NaN;
+
+        if (!transaction) {
+            
+            try {
+                const response = await fetch('/api/v1/expense/create', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to create expense');
+                }
+
+                const result = await response.json();
+                transactionId = result.expense_id;
+                console.log('Expense created successfully:', transactionId);
+            } catch (error) {
+                console.error('Error creating expense:', error);
+                return;
+            }
+        } else {
+            transactionId = transaction.id;
+        }
+
+        
+
         if (formData.projectNumber && !formData.projectName) {
             alert('Project not found');
             return;
@@ -63,6 +93,11 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
         const formDataToSend = new FormData();
         for (const key in formData) {
             formDataToSend.append(key, formData[key]);
+        }
+
+        if (!transactionId) {
+            alert('Transaction ID not available');
+            return;
         }
 
         try {
@@ -74,7 +109,7 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
         formDataToSend.set('amount', parseInt(formDataToSend.get('amount')*100));
 
         try {
-            const response = await fetch(`/api/v1/expense/${transaction.id}/update`, {
+            const response = await fetch(`/api/v1/expense/${transactionId}/update`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Token ${localStorage.getItem('token')}`,
