@@ -72,7 +72,7 @@ class CreateExpenseView(APIView):
 
         expense = Expense.objects.create(
             user=request.user,
-            status=Status.objects.get(name='Waiting')
+            status=Status.objects.get(name='Waiting'),
             image_url="/assets/placeholder.png"
         )
 
