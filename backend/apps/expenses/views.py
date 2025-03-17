@@ -34,6 +34,7 @@ class ListExpensesView(APIView):
             "project": expense.project.name if expense.project else None,
             "link": f"/api/v1/expense/{expense.id}"
         } for expense in expenses]
+        expenses_data.reverse()
         return Response(expenses_data, status=status.HTTP_200_OK)
 
 
