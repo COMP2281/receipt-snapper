@@ -1,0 +1,29 @@
+# Run manage.py load_categories to sync the database with this list
+Client Entertainment
+External Meeting Room Hire
+Hardware Purchase for Clients
+"Health & Safety, DSE, Eye Tests"
+Marketing Costs
+Networking Events
+Professional Subscriptions
+Team Entertainment
+Training
+Travel - Air Fare
+Travel - Bus Fare
+Travel - Hire Car
+Travel - Hotel Costs
+Travel - Meal Costs
+Travel - Mileage - IE
+Travel - Mileage - UK
+Travel - Parking
+Travel - Rail Travel
+Travel - Taxi Fare
+Travel - Toll Charge
+Waterstons IT Cloud Hosting
+Waterstons IT Peripherals (Hardware)
+Waterstons IT Software Subscriptions
+Waterstons Office Expenses - Australia
+Waterstons Office Expenses - Durham
+Waterstons Office Expenses - Glasgow
+Waterstons Office Expenses - London
+Waterstons Party

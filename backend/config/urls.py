@@ -14,25 +14,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-#from django.http import HttpResponse
 from django.contrib import admin
-from django.urls import path, include
-from manual_inputs import views
-
-#def root_view(request):
-#    return HttpResponse("Root test")
+from django.urls import path, include, re_path
+from django.views.static import serve
+from django.conf import settings
+from django.views.generic import TemplateView
+from django.conf.urls.static import static
 
 urlpatterns = [
-    #path('', views.index),     #root link to react
-    #path('', root_view, name='root'),  #root
-    path('admin/', admin.site.urls),    #admin url
-    path('', include('myapi.urls')), #api url
-    #path('', include('myapi.urls')),
-    path('login_system/', include('login_system.urls')),
-    path('api/manual/', include('manual_inputs.urls')),
-    path('api/export/', include('export.urls')), 
-    path('card_data/', include('card_data.urls')),   
-    path('upload/', include('upload.urls')),  
+    path("admin/", admin.site.urls),
+    path("api/v1/user/", include("users.urls")),
+    path("api/v1/expense/", include("expenses.urls")),
+    path("api/v1/upload", include("uploads.urls")),
+    path("api/v1/export", include("exports.urls")),
+    path("api/v1/card_data", include("card_data.urls")),
+    path('', TemplateView.as_view(template_name="index.html")),
+    re_path(r'dashboard/*', TemplateView.as_view(template_name="index.html")),
+    re_path(r'edit/*', TemplateView.as_view(template_name="index.html")),
+    re_path(r'card-data/*', TemplateView.as_view(template_name="index.html")),
+    re_path(r'add-expense/*', TemplateView.as_view(template_name="index.html")),
+    
+    re_path(r'static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT + '/static'}),
+    re_path(r'(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+    
 ]
 
 
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
