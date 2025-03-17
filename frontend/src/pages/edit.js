@@ -37,7 +37,11 @@ export default function Edit() {
         
 
     if (!transaction) {
-        return <div>Loading...</div>;
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <div>Loading...</div>
+            </Box>
+        );
     }
 
     return (

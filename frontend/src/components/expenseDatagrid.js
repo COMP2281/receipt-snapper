@@ -135,7 +135,7 @@ export default function ExpenseDatagrid({ rows }) {
                     }
                 },
                 {
-                    field: 'projectNumber',
+                    field: 'project',
                     headerName: 'Project',
                     width: 120,
                     editable: true,

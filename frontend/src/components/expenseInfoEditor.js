@@ -20,7 +20,8 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
             currency: transaction.currency || "GBP",
             amount: (transaction.amount / 100).toFixed(2) || "",
             location: transaction.location || "GB",
-            projectNumber: transaction.project || "",
+            projectNumber: transaction.projectNumber || "",
+            projectName: transaction.projectName || "",
             receipt: null,
         });
     }, [transaction]);
@@ -53,6 +54,12 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (formData.projectNumber && !formData.projectName) {
+            alert('Project not found');
+            return;
+        }
+
         const formDataToSend = new FormData();
         for (const key in formData) {
             formDataToSend.append(key, formData[key]);
@@ -105,13 +112,62 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
                 }
                 const data = await response.json();
                 setCategories(data);
+                if (transaction && transaction.category_id) {
+                    setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    category: transaction.category_id,
+                    }));
+                }
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
         };
 
         fetchCategories();
+
     }, []);
+
+    const [showProjectName, setShowProjectName] = useState(false);
+
+    const handleProjectLinkClick = (e) => {
+        e.preventDefault();
+        setShowProjectName(true);
+        setFormData({
+            ...formData,
+        });
+    };
+
+    useEffect(() => {
+        const fetchProjectName = async () => {
+            if (!formData.projectNumber || showProjectName) return;
+
+            try {
+                const response = await fetch(`/api/v1/expense/project/${formData.projectNumber}`, {
+                    headers: {
+                        'Authorization': `Token ${localStorage.getItem('token')}`,
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Project not found');
+                }
+
+                const data = await response.json();
+                setShowProjectName(false);
+                setFormData({
+                    ...formData,
+                    projectName: data.name,
+                });
+            } catch (error) {
+                setFormData({
+                    ...formData,
+                    projectName: "",
+                });
+            }
+        };
+
+        fetchProjectName();
+    }, [formData.projectNumber, showProjectName]);
 
     return (
         <form onSubmit={handleSubmit} style={{ flex: 1 }}>
@@ -204,7 +260,39 @@ export default function ExpenseInfoEditor({ transaction, upload, requireAll }) {
                 fullWidth
                 margin="normal"
                 required={requireAll !== false}
+                disabled={showProjectName}
+                sx={{
+                    '& .Mui-disabled': {
+                        color: theme.palette.text.secondary,
+                        WebkitTextFillColor: theme.palette.text.secondary,
+                    },
+                }}
             />
+            {formData.projectNumber && formData.projectName && !showProjectName &&  (
+                <Typography variant="body2" sx={{ ml: 1, mb: 1, textAlign: 'left' }}>
+                    Project Name: {formData.projectName}
+                </Typography>
+            )}
+            {formData.projectNumber && !formData.projectName && !showProjectName && (
+                <Typography variant="body2" sx={{ ml: 1, mb: 1, textAlign: 'left' }}>
+                    No Project Found. <Typography variant="body2" component="a" href="#" onClick={handleProjectLinkClick} sx={{ 
+                        color: theme.palette.primary.main,
+                        textDecoration: 'underline',
+                        WebkitTextFillColor: theme.palette.primary.main,
+                     }}>Create One</Typography>
+                </Typography>
+            )}
+            {showProjectName && (
+                <TextField
+                    label="Project Name"
+                    name="projectName"
+                    value={formData.projectName}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    required={requireAll !== false}
+                />
+            )}
             {upload !== "hide" && (
                 <Container
                     sx={{

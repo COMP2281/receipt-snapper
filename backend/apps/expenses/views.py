@@ -50,11 +50,13 @@ class ExpenseInfoView(APIView):
             "id": expense.id,
             "date": expense.date,
             "description": expense.description,
-            "category": expense.category.name if expense.category else None,
+            "category_name": expense.category.name if expense.category else None,
+            "category_id": expense.category.id if expense.category else None,
             "amount": expense.amount,
             "currency": expense.currency_code.code if expense.currency_code else None,
             "status": expense.status.name,
-            "project": expense.project.name if expense.project else None,
+            "projectNumber": expense.project.id if expense.project else None,
+            "projectName": expense.project.name if expense.project else None,
             "location": expense.location_code.name if expense.location_code else None,
             "line_item": expense.line_item.name if expense.line_item else None,
             "image_url": expense.image_url
@@ -179,12 +181,16 @@ class UpdateExpenseView(APIView):
             except Category.DoesNotExist:
                 return Response({"error": "Category not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if 'project_id' in data and data.get('project_id') != '':
+        if 'projectNumber' in data and data.get('projectNumber') != '':
             try:
-                project = Project.objects.get(id=data.get('project_id'))
+                project = Project.objects.get(id=data.get('projectNumber'))
                 expense.project = project
             except Project.DoesNotExist:
-                return Response({"error": "Project not found."}, status=status.HTTP_404_NOT_FOUND)
+                try:
+                    project = Project.objects.create(id=data.get('projectNumber'), name=data.get('projectName'))
+                    expense.project = project
+                except Exception as e:
+                    return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
         expense.save()
         return Response({"message": f"Expense with id {expense_id} updated successfully."}, status=status.HTTP_200_OK)
