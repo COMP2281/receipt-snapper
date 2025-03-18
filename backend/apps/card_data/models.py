@@ -18,5 +18,6 @@ class CardData(models.Model):
     payment_amount = models.DecimalField(max_digits=10, decimal_places=2)
     exchange_override = models.CharField(max_length=50)
     location_code = models.ForeignKey(Location, on_delete=models.CASCADE)
+    card_no = models.CharField(max_length=16, blank=True, null=True)
 
     objects = models.Manager()

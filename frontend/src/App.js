@@ -6,6 +6,7 @@ import Login from "./pages/login.js";
 import Dashboard from "./pages/dashboard.js";
 import AddExpense from "./pages/addExpense.js";
 import Edit from "./pages/edit.js";
+import CardData from "./pages/cardData.js";
 import Error from "./pages/error.js";
 import Footer from "./components/footer.js";
 import Navbar from "./components/navbar.js";
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/add-expense" element={<AddExpense />} />
             <Route path="/edit/:id" element={<Edit/>} />
+            <Route path="/card-data" element={<CardData />} />
             <Route path="*" element={<Error code="404" />} />
           </Routes>
         </Router>

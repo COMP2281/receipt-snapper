@@ -98,26 +98,6 @@ export default function Login() {
             </Button>
           </Box>
         </Box>
-        <Button sx={{
-          mt: 2,
-          color: theme.palette.dev.main,
-          background: theme.palette.dev.bg
-
-        }} onClick={() => {
-          window.location.href = '/dashboard';
-        }}>
-        Skip to Dashboard (DEV)
-        </Button>
-        <Button sx={{
-          mt: 2,
-          color: theme.palette.dev.main,
-          background: theme.palette.dev.bg
-
-        }} onClick={() => {
-          window.location.href = '/edit';
-        }}>
-        Skip to Edit (DEV)
-        </Button>
       </Container>
       <Footer />
     </>
