@@ -1,6 +1,9 @@
 # Use the official Python image from the Docker Hub
 FROM python:3.9-slim
 
+# Output a message
+RUN echo "If building fails, try running as sudo/administrator..."
+
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
