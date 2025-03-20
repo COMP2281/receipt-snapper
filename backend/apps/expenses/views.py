@@ -143,12 +143,12 @@ class UpdateExpenseView(APIView):
                 except Exception as e:
                     return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-        expense.save()
-
         if expense.line_item:
             expense.status = Status.objects.get(name='Completed')
         else:
             expense.status = Status.objects.get(name='Waiting')
+
+        expense.save()
 
         return Response({"message": f"Expense with id {expense_id} updated successfully."}, status=status.HTTP_200_OK)
     
