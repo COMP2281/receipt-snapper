@@ -7,6 +7,15 @@ import dotenv
 
 
 def main():
+    # Ensure the logs folder and log file exist
+    logs_folder_path = os.path.join(os.path.dirname(__file__), 'logs')
+    os.makedirs(logs_folder_path, exist_ok=True)
+    log_file_path = os.path.join(logs_folder_path, 'django.log')
+    if not os.path.exists(log_file_path):
+        print(f'Creating log file at {log_file_path}')
+        with open(log_file_path, 'w') as log_file:
+            log_file.write('')
+            log_file.close()
     """Run administrative tasks."""
     dotenv.load_dotenv()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.base")

@@ -33,7 +33,7 @@ SECRET_KEY = "django-insecure-_!58%_o2@il*=ua=-k97i9m12f!e8!mfzbpu4wb!t$1^i2__xt
 # use env variable to set DEBUG
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 
 # Application definition
