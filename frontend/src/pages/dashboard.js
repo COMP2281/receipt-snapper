@@ -22,6 +22,26 @@ export default function Dashboard() {
             .catch(error => console.error('Error fetching expenses:', error));
     }, []);
 
+    React.useEffect(() => {
+        const token = localStorage.getItem('token');
+        const interval = setInterval(() => {
+            fetch('/api/v1/expense/', {
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (JSON.stringify(data) !== JSON.stringify(expenses)) {
+                        setExpenses(data);
+                    }
+                })
+                .catch(error => console.error('Error fetching expenses:', error));
+        }, 2000); // Check every 5 seconds
+
+        return () => clearInterval(interval); // Cleanup interval on component unmount
+    }, [expenses]);
+
     return (
         <>
             <Container>

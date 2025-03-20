@@ -24,7 +24,6 @@ blob_service_client = BlobServiceClient.from_connection_string(connect_str)
 #Container to store images
 container_name="receipts"
 container_client = blob_service_client.get_container_client(container_name)
-print(container_client)
 
 
 def uploadImage(request):
@@ -48,17 +47,13 @@ def uploadImage(request):
     current_time = datetime.now().strftime("%Y%m%d%H%M%S")
     blob_name = f"{uuid.uuid4()}-{current_time}-{image.name}"
     
-    print(blob_name)
     try:
         # Uploads to Azure and let Azure assign a unique name
         blob_client = container_client.upload_blob(data=image, name=blob_name)
 
-        print(blob_client)
-
         # Get the assigned name
         unique_blob_name = blob_client.blob_name
 
-        print("uploaded")
         # Generates the unique URL
         blob_url = f"https://{blob_service_client.account_name}.blob.core.windows.net/{container_name}/{unique_blob_name}"
         # Saves metadata to db

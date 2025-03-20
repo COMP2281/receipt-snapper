@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Box } from "@mui/material";
+import { Container, Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import FileViewer from "../components/fileViewer";
 import PageTitle from "../components/pageTitle";
@@ -78,6 +78,10 @@ export default function Edit() {
                     }}/>
 
                 <ExpenseInfoEditor transaction={transaction} upload="hide" requireAll={false} />
+
+                <Typography sx={{ mt: 2, color: 'text.secondary' }}>
+                    Credit Card Line Item: {transaction.line_item || "Not Matched"}
+                </Typography>
 
             </Box>
         </Container>

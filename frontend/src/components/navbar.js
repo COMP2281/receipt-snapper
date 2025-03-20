@@ -20,6 +20,7 @@ export default function Navbar() {
         <>
             <Button color="inherit" onClick={() => window.location.href = '/dashboard'}>Dashboard</Button>
             <Button color="inherit" onClick={() => window.location.href = '/card-data'}>Card Data</Button>
+            <Button color="inherit" onClick={() => window.location.href = '/export'}>Export</Button>
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
         </>
     );

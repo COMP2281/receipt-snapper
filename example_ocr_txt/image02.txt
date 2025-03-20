@@ -39,7 +39,7 @@ Terminal ID 91111968
 Transaction number 254036
 Merchant ID 1001047081
 Entry Mode NFC
-STAN/BATCH 261136 / 4472
+STAN/BATCH 261136 / 1472
 CVM None
 Amount 67.45 GBP
 

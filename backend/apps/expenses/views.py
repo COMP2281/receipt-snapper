@@ -58,8 +58,8 @@ class ExpenseInfoView(APIView):
             "status": expense.status.name,
             "projectNumber": expense.project.id if expense.project else None,
             "projectName": expense.project.name if expense.project else None,
-            "location": expense.location_code.name if expense.location_code else None,
-            "line_item": expense.line_item.name if expense.line_item else None,
+            "location": expense.location_code.code if expense.location_code else None,
+            "line_item": expense.line_item.id if expense.line_item else None,
             "image_url": expense.image_url
         }
 
@@ -104,7 +104,7 @@ class UpdateExpenseView(APIView):
         
         if 'location_code' in data and data.get('location_code') != '':
             try:
-                location_code = Location.objects.get(id=data.get('location_code'))
+                location_code = Location.objects.get(code=data.get('location_code'))
                 expense.location_code = location_code
             except Location.DoesNotExist:
                 return Response({"error": "Location code not found."}, status=status.HTTP_404_NOT_FOUND)

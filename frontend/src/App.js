@@ -7,6 +7,7 @@ import Dashboard from "./pages/dashboard.js";
 import AddExpense from "./pages/addExpense.js";
 import Edit from "./pages/edit.js";
 import CardData from "./pages/cardData.js";
+import Export from "./pages/export.js";
 import Error from "./pages/error.js";
 import Footer from "./components/footer.js";
 import Navbar from "./components/navbar.js";
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/add-expense" element={<AddExpense />} />
             <Route path="/edit/:id" element={<Edit/>} />
             <Route path="/card-data" element={<CardData />} />
+            <Route path="/export" element={<Export />} />
             <Route path="*" element={<Error code="404" />} />
           </Routes>
         </Router>

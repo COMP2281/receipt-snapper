@@ -10,7 +10,9 @@
     "@mui/icons-material": "^6.1.10",
     "@mui/material": "^6.1.10",
     "@mui/x-data-grid": "^7.23.1",
+    "@mui/x-date-pickers": "^7.28.0",
     "cra-template": "1.2.0",
+    "dayjs": "^1.11.13",
     "pdfjs-dist": "^4.10.38",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -42,5 +44,4 @@
       "last 1 safari version"
     ]
   }
-  
 }
