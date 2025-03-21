@@ -1,5 +1,0 @@
-card_no,date,amount,currency_code,payment_exchange_rate,payment_amount,exchange_override,location_code
-1010101010101010,21/02/2025,190.26,AUD,1.3038,190.26,,AU
-1010101010101010,05/03/2025,231.62,AUD,0.9508,231.62,,AU
-1010101010101010,15/11/2024,77.91,GBP,0.0,77.91,,GB
-1010101010101010,12/11/2024,67.45,GBP,0.0,67.45,,GB
