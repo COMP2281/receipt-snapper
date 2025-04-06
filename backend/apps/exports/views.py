@@ -61,7 +61,7 @@ class ExportExpensesView(APIView):
 
 
 
-                f"{(expense.amount / 100)*.2:.2f}"
+                f"{((expense.amount / 100) / 5):.2f}"
                 f"{expense.amount / 100:.2f}",  # Assuming Net Amount is the same as Amount
                 expense.project.id if expense.project else '',
                 expense.project.name if expense.project else ''
